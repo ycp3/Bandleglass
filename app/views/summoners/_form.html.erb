@@ -1,0 +1,17 @@
+<%= form_with(model: summoner) do |form| %>
+  <% if summoner.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(summoner.errors.count, "error") %> prohibited this summoner from being saved:</h2>
+
+      <ul>
+        <% summoner.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

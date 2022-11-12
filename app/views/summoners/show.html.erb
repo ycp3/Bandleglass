@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @summoner %>
+
+<div>
+  <%= link_to "Edit this summoner", edit_summoner_path(@summoner) %> |
+  <%= link_to "Back to summoners", summoners_path %>
+
+  <%= button_to "Destroy this summoner", @summoner, method: :delete %>
+</div>
