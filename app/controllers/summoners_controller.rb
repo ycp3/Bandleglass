@@ -2,18 +2,16 @@ class SummonersController < ApplicationController
   before_action :set_summoner
 
   def show
-    @text = @summoner.to_s if @summoner.present?
+    if @summoner.present?
+      @text = "success" + @summoner.name
+    else
+      @text = "error"
+    end
   end
 
   private
 
   def set_summoner
-    begin
-      @summoner = Riot::ApiService.get_summoner_by_name(region: params[:region], name: params[:name])
-    rescue Riot::ApiService::NotFoundError
-      @text = "summoner not found"
-    rescue => error
-      @text = error.message
-    end
+    @summoner = SummonerService.get_summoner_by_name(region: params[:region], name: params[:name].gsub("+", " "))
   end
 end
