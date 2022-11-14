@@ -3,7 +3,7 @@ class SummonersController < ApplicationController
 
   def show
     if @summoner.present?
-      @text = "success" + @summoner.name
+      @text = "success"
     else
       @text = "error"
     end

@@ -6,8 +6,7 @@ module Riot
   class ApiService
     def self.get_summoner_by_name(region:, name:)
       path = base_url(region: region) + "lol/summoner/v4/summoners/by-name/" + name.gsub(" ", "%20")
-      uri = URI(path)
-      request(uri: uri)
+      request(path: path)
     end
 
     class BadRequestError < StandardError; end
@@ -30,7 +29,8 @@ module Riot
 
     private
 
-    def self.request(uri:)
+    def self.request(path:)
+      uri = URI(path)
       request_object = Net::HTTP::Get.new(uri)
       request_object["X-Riot-Token"] = ENV["RIOT_API_KEY"]
       response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request_object) }
