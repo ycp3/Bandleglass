@@ -3,7 +3,6 @@ class CreateSummoners < ActiveRecord::Migration[7.0]
     create_table :summoners do |t|
       t.string :name
       t.integer :region
-      t.integer :platform
       t.string :encrypted_id
       t.string :puuid
       t.integer :profile_icon_id

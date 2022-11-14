@@ -1,4 +1,7 @@
 class Summoner < ApplicationRecord
+  validates :puuid, uniqueness: true
+  validates :name, uniqueness: { scope: :region, message: "Summoner already exists for this region." }
+
   enum region: {
     na1: 0,
     euw1: 1,

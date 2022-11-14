@@ -5,7 +5,7 @@ require "net/http"
 module Riot
   class ApiService
     def self.get_summoner_by_name(region:, name:)
-      path = base_url(region: region) + "lol/summoner/v4/summoners/by-name/" + name
+      path = base_url(region: region) + "lol/summoner/v4/summoners/by-name/" + name.gsub(" ", "%20")
       uri = URI(path)
       request(uri: uri)
     end
@@ -34,7 +34,7 @@ module Riot
       request_object = Net::HTTP::Get.new(uri)
       request_object["X-Riot-Token"] = ENV["RIOT_API_KEY"]
       response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request_object) }
-      
+
       code = response.code.to_i
       if code == 429
         sleep(response["Retry-After"])
