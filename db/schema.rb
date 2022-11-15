@@ -10,9 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_14_033313) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_15_035523) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "matches", force: :cascade do |t|
+    t.string "match_id"
+    t.integer "region"
+    t.datetime "started_at"
+    t.integer "duration"
+    t.integer "game_mode"
+    t.integer "game_type"
+    t.string "game_version"
+    t.integer "map_id"
+    t.integer "queue_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_matches_on_match_id", unique: true
+  end
 
   create_table "summoners", force: :cascade do |t|
     t.string "name"
