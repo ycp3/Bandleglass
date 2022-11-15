@@ -36,11 +36,11 @@ module Riot
       response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request_object) }
 
       code = response.code.to_i
-      if code == 429
+      if code == 200
+        JSON.parse(response.body)
+      elsif code == 429
         sleep(response["Retry-After"])
         request(uri: uri)
-      elsif code == 200
-        JSON.parse(response.body)
       else
         raise RESPONSE_CODE_TO_ERROR[code]
       end
