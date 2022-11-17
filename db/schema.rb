@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_15_035523) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_17_053812) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,4 +42,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_035523) do
     t.index ["puuid"], name: "index_summoners_on_puuid", unique: true
   end
 
+  create_table "teams", force: :cascade do |t|
+    t.bigint "match_id"
+    t.integer "team_id"
+    t.boolean "win"
+    t.boolean "first_baron"
+    t.integer "baron_kills"
+    t.boolean "first_champion"
+    t.integer "champion_kills"
+    t.boolean "first_dragon"
+    t.integer "dragon_kills"
+    t.boolean "first_inhibitor"
+    t.integer "inhibitor_kills"
+    t.boolean "first_rift_herald"
+    t.integer "rift_herald_kills"
+    t.boolean "first_tower"
+    t.integer "tower_kills"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_teams_on_match_id"
+  end
+
+  add_foreign_key "teams", "matches"
 end
