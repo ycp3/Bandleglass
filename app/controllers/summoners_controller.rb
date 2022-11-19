@@ -12,6 +12,6 @@ class SummonersController < ApplicationController
   private
 
   def set_summoner
-    @summoner = SummonerService.get_summoner_by_name(region: params[:region], name: params[:name].gsub("+", " "))
+    @summoner = SummonerService.get_summoner_by_name(region: params[:region], name: params[:name])
   end
 end
