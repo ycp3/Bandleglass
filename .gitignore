@@ -36,3 +36,6 @@
 
 # Ignore environment variables
 /config/env.rb
+
+# Ignore Data Dragon assets
+/vendor/assets
