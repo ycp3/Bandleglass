@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 require "net/http"
+require "rubygems/package"
+require "zlib"
 
 module Riot
   class DDragonService
     def self.update!
-      if outdated?
-        download_raw
-        extract_data
+      latest_version = get_latest_version
+      if outdated?(latest_version: latest_version)
+        download_raw(version: latest_version)
+        extract_data(version: latest_version)
       end
     end
 
@@ -18,14 +21,18 @@ module Riot
 
     private
 
-    def self.extract_data
-      
+    def self.extract_data(version:)
+      Gem::Package::TarReader.new(Zlib::GzipReader.open dir_raw.join(version)) do |tar|
+        tar.rewind
+        tar.each do |entry|
+          Riot::AssetService.handle_entry(version: version, entry: entry)
+        end
+      end
     end
 
-    def self.download_raw
+    def self.download_raw(version:)
       FileUtils.rm_r Dir.glob(dir_raw.join("*"))
 
-      version = get_latest_version
       uri = URI(base_url + "cdn/dragontail-#{version}.tgz")
 
       Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
@@ -44,8 +51,8 @@ module Riot
       end
     end
 
-    def self.outdated?
-      Dir.children(dir_raw).empty? || Dir.children(dir_raw).first != get_latest_version
+    def self.outdated?(latest_version:)
+      Dir.children(dir_raw).empty? || Dir.children(dir_raw).first != latest_version
     end
 
     def self.dir_raw
