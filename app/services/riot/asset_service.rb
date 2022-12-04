@@ -6,13 +6,37 @@ module Riot
       return if entry.directory?
       if entry.full_name.start_with? "#{version}/img/champion/"
         img_champion(entry: entry)
+      elsif entry.full_name.start_with? "#{version}/img/item/"
+        img_item(entry: entry)
+      elsif entry.full_name.start_with? "#{version}/img/profileicon/"
+        img_profileicon(entry: entry)
+      elsif entry.full_name.start_with? "#{version}/img/passive/"
+        img_passive(entry: entry)
+      elsif entry.full_name.start_with? "#{version}/img/spell/"
+        img_spell(entry: entry)
       end
     end
 
     private
 
+    def img_spell(entry:)
+      write_to_file(destination: dir_images.join("spells", file_name(entry: entry)), entry: entry)
+    end
+
+    def img_passive(entry:)
+      write_to_file(destination: dir_images.join("passives", file_name(entry: entry)), entry: entry)
+    end
+
+    def img_profileicon(entry:)
+      write_to_file(destination: dir_images.join("profile_icons", file_name(entry: entry)), entry: entry)
+    end
+
+    def img_item(entry:)
+      write_to_file(destination: dir_images.join("items", file_name(entry: entry)), entry: entry)
+    end
+
     def self.img_champion(entry:)
-      write_to_file(destination: dir_images.join("champion", file_name(entry: entry)), entry: entry)
+      write_to_file(destination: dir_images.join("champion_icons", file_name(entry: entry)), entry: entry)
     end
 
     def self.write_to_file(destination:, entry:)
