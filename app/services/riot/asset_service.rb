@@ -14,10 +14,34 @@ module Riot
         img_passive(entry: entry)
       elsif entry.full_name.start_with? "#{version}/img/spell/"
         img_spell(entry: entry)
+      elsif entry.full_name.start_with? "img/perk-images/StatMods/"
+        img_stats(entry: entry)
+      elsif entry.full_name == "#{version}/data/en_US/championFull.json"
+        data_champions(entry: entry)
+      elsif entry.full_name == "#{version}/data/en_US/item.json"
+        data_items(entry: entry)
+      elsif entry.full_name == "#{version}/data/en_US/runesReforged.json"
+        data_runes(entry: entry)
       end
     end
 
     private
+
+    def self.data_runes(entry:)
+      write_to_file(destination: dir_data.join("runes.json"), entry: entry)
+    end
+
+    def self.data_items(entry:)
+      write_to_file(destination: dir_data.join("items.json"), entry: entry)
+    end
+
+    def self.data_champions(entry:)
+      write_to_file(destination: dir_data.join("champions.json"), entry: entry)
+    end
+
+    def self.img_stats(entry:)
+      write_to_file(destination: dir_images.join("stats", file_name), entry: entry)
+    end
 
     def self.img_spell(entry:)
       write_to_file(destination: dir_images.join("spells", file_name(entry: entry)), entry: entry)
@@ -46,7 +70,7 @@ module Riot
     end
 
     def self.file_name(entry:)
-      entry.full_name.split("/")[-1]
+      entry.full_name.split("/").last
     end
 
     def self.dir_images
