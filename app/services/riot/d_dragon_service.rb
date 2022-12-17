@@ -11,12 +11,13 @@ module Riot
       if outdated?(latest_version: latest_version)
         download_raw(version: latest_version)
         extract_data(version: latest_version)
+        Riot::AssetService.update!
       end
     end
 
     def self.get_latest_version
       response = request(path: base_url + "api/versions.json")
-      response[0]
+      response.first
     end
 
     private
