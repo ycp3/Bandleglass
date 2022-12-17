@@ -1,0 +1,2 @@
+class SummonerSpell < ApplicationRecord
+end

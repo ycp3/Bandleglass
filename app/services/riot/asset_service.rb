@@ -22,10 +22,36 @@ module Riot
         data_items(entry: entry)
       elsif entry.full_name == "#{version}/data/en_US/runesReforged.json"
         data_runes(entry: entry)
+      elsif entry.full_name == "#{version}/data/en_US/summoner.json"
+        data_summoners(entry: entry)
       end
     end
 
+    def self.update!
+      update_summoner_spells!
+    end
+
     private
+
+    def self.update_summoner_spells!
+      File.open dir_data.join("summoner_spells.json") do |file|
+        data = JSON.load file
+        data = data["data"]
+        data.each do |internal_name, summoner_spell_data|
+          summoner_spell = SummonerSpell.find_or_initialize_by(id: summoner_spell_data["key"])
+          summoner_spell.update(
+            name: summoner_spell_data["name"],
+            internal_name: internal_name,
+            description: summoner_spell_data["description"],
+            cooldown: summoner_spell_data["cooldown"].first
+          )
+        end
+      end
+    end
+
+    def self.data_summoners(entry:)
+      write_to_file(destination: dir_data.join("summoner_spells.json"), entry: entry)
+    end
 
     def self.data_runes(entry:)
       write_to_file(destination: dir_data.join("runes.json"), entry: entry)
