@@ -1,4 +1,6 @@
 class Spell < ApplicationRecord
+  belongs_to :champion
+
   enum spell_type: {
     q: 0,
     w: 1,

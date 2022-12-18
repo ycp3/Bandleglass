@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_18_012300) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_18_083254) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,10 +30,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_18_012300) do
     t.datetime "started_at"
     t.integer "duration"
     t.integer "game_mode"
-    t.integer "game_type"
     t.string "game_version"
-    t.integer "map_id"
-    t.integer "queue_id"
+    t.integer "map"
+    t.integer "queue"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["match_id"], name: "index_matches_on_match_id", unique: true
@@ -75,7 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_18_012300) do
 
   create_table "teams", force: :cascade do |t|
     t.bigint "match_id"
-    t.integer "team_id"
+    t.integer "side"
     t.boolean "win"
     t.boolean "first_baron"
     t.integer "baron_kills"
