@@ -27,21 +27,57 @@ module Riot
       end
     end
 
-    def self.update!
+    def self.update_assets!
       update_summoner_spells!
+      update_champions!
     end
 
     private
+
+    def self.update_champions!
+      File.open dir_data.join("champions.json") do |file|
+        data = JSON.load file
+        data = data["data"]
+        data.values.each do |champion_data|
+          champion = Champion.find_or_initialize_by(id: champion_data["key"])
+          champion.update!(
+            name: champion_data["name"],
+            title: champion_data["title"],
+            internal_name: champion_data["id"],
+            lore: champion_data["lore"],
+            tags: champion_data["tags"]
+          )
+
+          passive_data = champion_data["passive"]
+          passive = Spell.find_or_initialize_by(champion: champion, spell_type: :passive)
+          passive.update!(
+            name: passive_data["name"],
+            internal_name: passive_data["image"]["full"].delete_suffix(".png"),
+            description: passive_data["description"]
+          )
+
+          champion_data["spells"].each_with_index do |spell_data, index|
+            spell_type = Spell.spell_types.key(index)
+            spell = Spell.find_or_initialize_by(champion: champion, spell_type: spell_type)
+            spell.update!(
+              name: spell_data["name"],
+              internal_name: spell_data["id"],
+              description: spell_data["description"]
+            )
+          end
+        end
+      end
+    end
 
     def self.update_summoner_spells!
       File.open dir_data.join("summoner_spells.json") do |file|
         data = JSON.load file
         data = data["data"]
-        data.each do |internal_name, summoner_spell_data|
+        data.values.each do |summoner_spell_data|
           summoner_spell = SummonerSpell.find_or_initialize_by(id: summoner_spell_data["key"])
-          summoner_spell.update(
+          summoner_spell.update!(
             name: summoner_spell_data["name"],
-            internal_name: internal_name,
+            internal_name: summoner_spell_data["id"],
             description: summoner_spell_data["description"],
             cooldown: summoner_spell_data["cooldown"].first
           )

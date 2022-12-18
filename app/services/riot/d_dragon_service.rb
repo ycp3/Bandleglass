@@ -11,7 +11,7 @@ module Riot
       if outdated?(latest_version: latest_version)
         download_raw(version: latest_version)
         extract_data(version: latest_version)
-        Riot::AssetService.update!
+        Riot::AssetService.update_assets!
       end
     end
 

@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_17_053644) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_18_012300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "champions", force: :cascade do |t|
+    t.string "name"
+    t.string "title"
+    t.string "internal_name"
+    t.text "lore"
+    t.string "tags", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "matches", force: :cascade do |t|
     t.string "match_id"
@@ -27,6 +37,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_17_053644) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["match_id"], name: "index_matches_on_match_id", unique: true
+  end
+
+  create_table "spells", force: :cascade do |t|
+    t.bigint "champion_id"
+    t.integer "spell_type"
+    t.string "name"
+    t.string "internal_name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["champion_id", "spell_type"], name: "index_spells_on_champion_id_and_spell_type", unique: true
+    t.index ["champion_id"], name: "index_spells_on_champion_id"
   end
 
   create_table "summoner_spells", force: :cascade do |t|
@@ -72,5 +94,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_17_053644) do
     t.index ["match_id"], name: "index_teams_on_match_id"
   end
 
+  add_foreign_key "spells", "champions"
   add_foreign_key "teams", "matches"
 end
