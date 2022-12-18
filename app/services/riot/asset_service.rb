@@ -102,7 +102,7 @@ module Riot
     end
 
     def self.img_stats(entry:)
-      write_to_file(destination: dir_images.join("stats", file_name), entry: entry)
+      write_to_file(destination: dir_images.join("stats", file_name(entry: entry)), entry: entry)
     end
 
     def self.img_spell(entry:)

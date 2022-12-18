@@ -32,7 +32,7 @@ module Riot
     end
 
     def self.download_raw(version:)
-      FileUtils.rm_r Dir.glob(dir_raw.join("*"))
+      FileUtils.rm Dir.glob(dir_raw.join("*"))
 
       uri = URI(base_url + "cdn/dragontail-#{version}.tgz")
 

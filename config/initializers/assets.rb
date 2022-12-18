@@ -3,9 +3,15 @@
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = "1.0"
 
-FileUtils.mkdir_p(Rails.root.join("vendor", "assets", "images"))
-FileUtils.mkdir_p(Rails.root.join("vendor", "assets", "data"))
 FileUtils.mkdir_p(Rails.root.join("vendor", "assets", "raw"))
+FileUtils.mkdir_p(Rails.root.join("vendor", "assets", "data"))
+
+FileUtils.mkdir_p(Rails.root.join("vendor", "assets", "images", "champion_icons"))
+FileUtils.mkdir_p(Rails.root.join("vendor", "assets", "images", "items"))
+FileUtils.mkdir_p(Rails.root.join("vendor", "assets", "images", "profile_icons"))
+FileUtils.mkdir_p(Rails.root.join("vendor", "assets", "images", "passives"))
+FileUtils.mkdir_p(Rails.root.join("vendor", "assets", "images", "spells"))
+FileUtils.mkdir_p(Rails.root.join("vendor", "assets", "images", "stats"))
 
 # Add additional assets to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join("vendor", "assets", "images")
