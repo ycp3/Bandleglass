@@ -30,9 +30,26 @@ module Riot
     def self.update_assets!
       update_summoner_spells!
       update_champions!
+      update_items!
     end
 
     private
+
+    def self.update_items!
+      File.open dir_data.join("items.json") do |file|
+        data = JSON.load file
+        data = data["data"]
+        data.each do |id, item_data|
+          item = Item.find_or_initialize_by(id: id)
+          item.update!(
+            name: item_data["name"],
+            description: item_data["description"],
+            cost: item_data["gold"]["total"],
+            sell_value: item_data["gold"]["sell"]
+          )
+        end
+      end
+    end
 
     def self.update_champions!
       File.open dir_data.join("champions.json") do |file|
