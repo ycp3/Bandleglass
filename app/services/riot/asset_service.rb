@@ -46,7 +46,8 @@ module Riot
             description: item_data["description"],
             cost: item_data["gold"]["total"],
             sell_value: item_data["gold"]["sell"],
-            ornn_upgrade: item_data["requiredAlly"] == "Ornn"
+            ornn_upgrade: item_data["description"].include?("<ornnBonus>"),
+            mythic: item_data["description"].include?("<rarityMythic>")
           )
         end
       end
