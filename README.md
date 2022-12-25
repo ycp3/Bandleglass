@@ -1,24 +1,16 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Bandleglass
 
-Things you may want to cover:
+## Running locally
 
-* Ruby version
+This app is designed for use with VSCode Dev Containers.
 
-* System dependencies
+First, create the env file at `/docker/.env`, and paste the following, making sure to provide a valid [Riot API Key](https://developer.riotgames.com/).
+```
+POSTGRES_PASSWORD=password
+RIOT_API_KEY=YOUR_API_KEY_HERE
+```
 
-* Configuration
+Ensure the "Dev Containers" extension is installed, then navigate to the project's root directory. Use Cmd/Ctrl + Shift + P to open up the Command Palette and select "Dev Containers: Reopen in Container".
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+In the container, use `rails s -b 0.0.0.0` to start up the server, which can be accessed from your browser at `https://localhost:3000/`.
