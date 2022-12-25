@@ -1,0 +1,26 @@
+{
+  "name": "Bandleglass",
+  "dockerComposeFile": [
+    "../docker/docker-compose.yml",
+    "docker-compose.yml"
+  ],
+  "service": "bandleglass_app",
+  "workspaceFolder": "/app",
+  "forwardPorts": [
+    3000
+  ],
+
+  "settings": {
+    "editor.formatOnSave": false,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "files.eol": "\n"
+  },
+
+	// Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
+    "rebornix.Ruby",
+    "kaiwood.endwise",
+    "eamodio.gitlens"
+  ]
+}

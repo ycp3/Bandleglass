@@ -35,7 +35,7 @@
 /config/master.key
 
 # Ignore environment variables
-/config/env.rb
+/docker/.env
 
 # Ignore Data Dragon assets
 /vendor/assets
