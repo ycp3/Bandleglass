@@ -1,0 +1,39 @@
+volumes:
+  postgres_data:
+  bundle:
+  rails_cache:
+
+services:
+  bandleglass_app:
+    image: bandleglass_app
+    container_name: bandleglass_app
+    env_file:
+      - .env
+    build:
+      context: ..
+      dockerfile: docker/app/Dockerfile
+      ssh:
+        - default
+    working_dir: /app
+    depends_on:
+      - bandleglass_db
+    links:
+      - bandleglass_db
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+    volumes:
+      - ..:/app:cached
+      - rails_cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+    tmpfs:
+      - /tmp
+  bandleglass_db:
+    image: postgres:15.1
+    container_name: bandleglass_db
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../docker/db/bandleglass-role.sql:/docker-entrypoint-initdb.d/bandleglass-role.sql

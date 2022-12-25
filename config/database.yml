@@ -2,9 +2,9 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
+  host: bandleglass_db
   username: postgres
-  password: password
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
 
 development:
   <<: *default
@@ -20,5 +20,3 @@ test:
 production:
   <<: *default
   database: bandleglass_production
-  username: bandleglass
-  password: <%= ENV["BANDLEGLASS_DATABASE_PASSWORD"] %>
