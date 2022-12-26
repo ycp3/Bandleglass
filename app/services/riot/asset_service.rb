@@ -16,6 +16,8 @@ module Riot
         img_spell(entry: entry)
       elsif entry.full_name.start_with? "img/perk-images/StatMods/"
         img_stats(entry: entry)
+      elsif entry.full_name.start_with? "img/perk-images/Styles/"
+        img_runes(entry: entry)
       elsif entry.full_name == "#{version}/data/en_US/championFull.json"
         data_champions(entry: entry)
       elsif entry.full_name == "#{version}/data/en_US/item.json"
@@ -31,9 +33,38 @@ module Riot
       update_summoner_spells!
       update_champions!
       update_items!
+      update_runes!
     end
 
     private
+
+    def self.update_runes!
+      File.open dir_data.join("runes.json") do |file|
+        rune_trees = JSON.load file
+        rune_trees.each do |rune_tree_data|
+          rune_tree = RuneTree.find_or_initialize_by(id: rune_tree_data["id"])
+          rune_tree.update!(
+            name: rune_tree_data["name"],
+            file_name: rune_tree_data["icon"].split("/").last
+          )
+
+          rune_tree_data["slots"].each_with_index do |row, index|
+            runes = row["runes"]
+            runes.each_with_index do |rune_data, row_order|
+              rune = Rune.find_or_initialize_by(id: rune_data["id"])
+              rune.update!(
+                name: rune_data["name"],
+                rune_tree: rune_tree,
+                row: index,
+                row_order: row_order,
+                description: rune_data["shortDesc"],
+                file_name: rune_data["icon"].split("/").last
+              )
+            end
+          end
+        end
+      end
+    end
 
     def self.update_items!
       File.open dir_data.join("items.json") do |file|
@@ -118,6 +149,10 @@ module Riot
 
     def self.data_champions(entry:)
       write_to_file(destination: dir_data.join("champions.json"), entry: entry)
+    end
+
+    def self.img_runes(entry:)
+      write_to_file(destination: dir_images.join("runes", file_name(entry: entry)), entry: entry)
     end
 
     def self.img_stats(entry:)

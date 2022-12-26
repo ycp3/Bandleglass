@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_21_060029) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_26_214856) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,6 +47,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_21_060029) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["match_id"], name: "index_matches_on_match_id", unique: true
+  end
+
+  create_table "rune_trees", force: :cascade do |t|
+    t.string "name"
+    t.string "file_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "runes", force: :cascade do |t|
+    t.string "name"
+    t.bigint "rune_tree_id"
+    t.integer "row"
+    t.integer "row_order"
+    t.text "description"
+    t.string "file_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rune_tree_id"], name: "index_runes_on_rune_tree_id"
   end
 
   create_table "spells", force: :cascade do |t|
@@ -104,6 +123,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_21_060029) do
     t.index ["match_id"], name: "index_teams_on_match_id"
   end
 
+  add_foreign_key "runes", "rune_trees"
   add_foreign_key "spells", "champions"
   add_foreign_key "teams", "matches"
 end
