@@ -5,23 +5,13 @@ class Match < ApplicationRecord
 
   has_many :teams
 
-  enum game_mode: {
-    classic: 0,
-    aram: 1,
-    tutorial: 2,
-    urf: 3,
-    oneforall: 4,
-    ultbook: 5,
-    nexusblitz: 6
-  }
-
   enum map: {
     summoners_rift: 11,
     howling_abyss: 12,
-    nexus_blitz: 21
+    nexus_blitz_map: 21
   }
 
-  enum queue: {
+  enum queue_type: {
     draft_pick: 400,
     ranked_solo: 420,
     blind_pick: 430,

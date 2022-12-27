@@ -5,4 +5,9 @@ class Summoner < ApplicationRecord
   validates :name, uniqueness: { scope: :region, message: "Summoner already exists for this region." }
 
   scope :by_name, ->(name) { where("lower(name) = ?", name.strip.downcase) }
+
+  has_many :participants
+  has_many :matches, through: :participants
+
+  has_one :rank
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_27_070056) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_27_074418) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,10 +40,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_27_070056) do
     t.integer "region"
     t.datetime "started_at"
     t.integer "duration"
-    t.integer "game_mode"
     t.string "game_version"
     t.integer "map"
-    t.integer "queue"
+    t.integer "queue_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["match_id"], name: "index_matches_on_match_id", unique: true

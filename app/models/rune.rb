@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 class Rune < ApplicationRecord
+  default_scope { order(:row, :row_order) }
+
   belongs_to :rune_tree
 
   enum row: {
@@ -7,4 +11,8 @@ class Rune < ApplicationRecord
     row_2: 2,
     row_3: 3
   }
+
+  def image_path
+    "runes/#{file_name}"
+  end
 end
