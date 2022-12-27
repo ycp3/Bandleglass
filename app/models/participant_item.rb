@@ -1,0 +1,2 @@
+class ParticipantItem < ApplicationRecord
+end
