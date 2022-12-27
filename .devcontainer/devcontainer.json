@@ -19,8 +19,9 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-    "rebornix.Ruby",
-    "kaiwood.endwise",
-    "eamodio.gitlens"
-  ]
+	"rebornix.Ruby",
+	"kaiwood.endwise",
+	"eamodio.gitlens",
+	"pucelle.run-on-save"
+]
 }

@@ -1,0 +1,2 @@
+class RunePage < ApplicationRecord
+end
