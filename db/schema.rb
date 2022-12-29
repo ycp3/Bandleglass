@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_27_074418) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_28_070658) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -82,7 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_27_074418) do
     t.integer "largest_multikill"
     t.integer "damage_dealt"
     t.integer "damage_taken"
-    t.integer "minions_killed"
+    t.integer "cs"
     t.integer "vision_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -93,6 +93,47 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_27_074418) do
     t.index ["summoner_spell_1_id"], name: "index_participants_on_summoner_spell_1_id"
     t.index ["summoner_spell_2_id"], name: "index_participants_on_summoner_spell_2_id"
     t.index ["team_id"], name: "index_participants_on_team_id"
+  end
+
+  create_table "performances", force: :cascade do |t|
+    t.bigint "participant_id"
+    t.integer "baron_kills"
+    t.integer "dragon_kills"
+    t.integer "xp"
+    t.integer "objective_damage"
+    t.integer "turret_damage"
+    t.integer "objectives_stolen"
+    t.integer "largest_killing_spree"
+    t.integer "largest_critical_strike"
+    t.integer "physical_damage_dealt"
+    t.integer "physical_damage_taken"
+    t.integer "magic_damage_dealt"
+    t.integer "magic_damage_taken"
+    t.integer "true_damage_dealt"
+    t.integer "true_damage_taken"
+    t.integer "self_mitigated_damage"
+    t.integer "cc_score"
+    t.integer "control_wards_placed"
+    t.integer "stealth_wards_placed"
+    t.integer "wards_killed"
+    t.boolean "first_blood_assist"
+    t.boolean "first_blood_kill"
+    t.boolean "first_tower_assist"
+    t.boolean "first_tower_kill"
+    t.integer "inhibitor_kills"
+    t.integer "inhibitor_takedowns"
+    t.integer "turret_kills"
+    t.integer "turret_takedowns"
+    t.integer "gold_spent"
+    t.integer "q_casts"
+    t.integer "w_casts"
+    t.integer "e_casts"
+    t.integer "r_casts"
+    t.integer "summoner_spell_1_casts"
+    t.integer "summoner_spell_2_casts"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_performances_on_participant_id"
   end
 
   create_table "ranks", force: :cascade do |t|
@@ -210,6 +251,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_27_074418) do
   add_foreign_key "participants", "summoner_spells", column: "summoner_spell_2_id"
   add_foreign_key "participants", "summoners"
   add_foreign_key "participants", "teams"
+  add_foreign_key "performances", "participants"
   add_foreign_key "ranks", "summoners"
   add_foreign_key "rune_pages", "participants"
   add_foreign_key "rune_pages", "rune_trees", column: "primary_tree_id"

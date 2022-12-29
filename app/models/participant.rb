@@ -10,4 +10,5 @@ class Participant < ApplicationRecord
   has_many :items, through: :participant_items
 
   has_one :rune_page
+  has_one :performance
 end
