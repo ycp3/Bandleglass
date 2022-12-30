@@ -3,6 +3,11 @@
 class Rank < ApplicationRecord
   belongs_to :summoner
 
+  enum queue_type: {
+    ranked_solo_5x5: 0,
+    ranked_flex_sr: 1
+  }
+
   enum tier: {
     iron: 0,
     bronze: 1,
@@ -16,10 +21,10 @@ class Rank < ApplicationRecord
   }
 
   enum division: {
-    I: 0,
-    II: 1,
-    III: 2,
-    IV: 3
+    i: 0,
+    ii: 1,
+    iii: 2,
+    iv: 3
   }
 
   def to_s

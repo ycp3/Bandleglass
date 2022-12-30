@@ -4,11 +4,18 @@ class Participant < ApplicationRecord
   belongs_to :match
 
   belongs_to :champion
-  belongs_to :ban, class_name: :Champion
 
   has_many :participant_items
   has_many :items, through: :participant_items
 
   has_one :rune_page
   has_one :performance
+
+  enum position: {
+    top: 0,
+    jungle: 1,
+    middle: 2,
+    bottom: 3,
+    support: 4
+  }
 end
