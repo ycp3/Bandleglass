@@ -9,5 +9,13 @@ class Summoner < ApplicationRecord
   has_many :participants
   has_many :matches, through: :participants
 
-  has_one :rank
+  has_many :ranks
+
+  def rank
+    ranks.find_by queue_type: :ranked_solo_5x5
+  end
+  
+  def flex_rank
+    ranks.find_by queue_type: :ranked_flex_sr
+  end
 end

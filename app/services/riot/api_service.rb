@@ -9,6 +9,27 @@ module Riot
       request(path: path)
     end
 
+    def self.get_match_ids_by_puuid(region:, puuid:, start: nil, count: nil, queue_type_id: nil)
+      path = base_url(region: region, platform: true) + "lol/match/v5/matches/by-puuid/#{puuid}/ids"
+      path = add_params(
+        path: path,
+        start: start,
+        count: count,
+        queue_type: queue_type_id
+      )
+      request(path: path)
+    end
+
+    def self.get_match_by_match_id(region:, match_id:)
+      path = base_url(region: region, platform: true) + "lol/match/v5/matches/" + match_id
+      request(path: path)
+    end
+
+    def self.get_league_entries_by_summoner_id(region:, summoner_id:)
+      path = base_url(region: region) + "lol/league/v4/entries/by-summoner/" + summoner_id
+      request(path: path)
+    end
+
     class BadRequestError < StandardError; end
     class UnauthorizedError < StandardError; end
     class ForbiddenError < StandardError; end
@@ -29,6 +50,14 @@ module Riot
 
     private
 
+    def self.add_params(path:, **params)
+      path += "?"
+      params.each do |key, value|
+        path += "&#{key}=#{value}" if value.present?
+      end
+      return path
+    end
+
     def self.request(path:)
       uri = URI(path)
       request_object = Net::HTTP::Get.new(uri)
@@ -39,7 +68,7 @@ module Riot
       if code == 200
         JSON.parse(response.body)
       elsif code == 429
-        sleep(response["Retry-After"])
+        sleep(response["Retry-After"].to_i)
         request(uri: uri)
       else
         raise RESPONSE_CODE_TO_ERROR[code]
@@ -61,13 +90,13 @@ module Riot
     end
 
     def self.region_to_platform(region:)
-      if ["na1", "br1", "la1", "la2"].include? region
+      if Regionable::AMERICAS_REGIONS.include? region
         "americas"
-      elsif ["euw1", "eun1", "tr1", "ru"].include? region
+      elsif Regionable::EUROPE_REGIONS.include? region
         "europe"
-      elsif ["kr", "jp1"].include? region
+      elsif Regionable::ASIA_REGIONS.include? region
         "asia"
-      else
+      elsif Regionable::SEA_REGIONS.include? region
         "sea"
       end
     end
