@@ -3,7 +3,8 @@ class Match < ApplicationRecord
 
   validates :match_id, uniqueness: true
 
-  has_many :teams
+  has_many :teams, dependent: :destroy
+  has_many :participants, through: :teams
 
   enum map: {
     summoners_rift: 11,
