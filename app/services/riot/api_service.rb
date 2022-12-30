@@ -69,7 +69,7 @@ module Riot
         JSON.parse(response.body)
       elsif code == 429
         sleep(response["Retry-After"].to_i)
-        request(uri: uri)
+        request(path: path)
       else
         raise RESPONSE_CODE_TO_ERROR[code]
       end

@@ -5,11 +5,11 @@ class Participant < ApplicationRecord
 
   belongs_to :champion
 
-  has_many :participant_items
+  has_many :participant_items, dependent: :destroy
   has_many :items, through: :participant_items
 
-  has_one :rune_page
-  has_one :performance
+  has_one :rune_page, dependent: :destroy
+  has_one :performance, dependent: :destroy
 
   enum position: {
     top: 0,
