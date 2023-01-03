@@ -9,7 +9,7 @@ class Summoner < ApplicationRecord
   has_many :participants
   has_many :matches, through: :participants
 
-  has_many :ranks
+  has_many :ranks, dependent: :destroy
 
   def rank
     ranks.find_by queue_type: :ranked_solo_5x5

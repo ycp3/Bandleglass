@@ -42,7 +42,8 @@ class MatchService
       rift_herald_kills: blue_team_data["objectives"]["riftHerald"]["kills"],
       first_tower: blue_team_data["objectives"]["tower"]["first"],
       tower_kills: blue_team_data["objectives"]["tower"]["kills"],
-      banned_champion_ids: blue_team_data["bans"].map { |ban_object| ban_object["championId"] }
+      banned_champion_ids: blue_team_data["bans"].map { |ban_object| ban_object["championId"] },
+      surrendered: match_data["participants"].first["gameEndedInSurrender"] && !blue_team_data["win"]
     )
 
     red_team_data = match_data["teams"].find { |team_data| team_data["teamId"] == Team.sides[:red] }
@@ -62,7 +63,8 @@ class MatchService
       rift_herald_kills: red_team_data["objectives"]["riftHerald"]["kills"],
       first_tower: red_team_data["objectives"]["tower"]["first"],
       tower_kills: red_team_data["objectives"]["tower"]["kills"],
-      banned_champion_ids: red_team_data["bans"].map { |ban_object| ban_object["championId"] }
+      banned_champion_ids: red_team_data["bans"].map { |ban_object| ban_object["championId"] },
+      surrendered: match_data["participants"].first["gameEndedInSurrender"] && !red_team_data["win"]
     )
 
     match_data["participants"].each do |participant_data|
