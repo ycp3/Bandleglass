@@ -4,7 +4,7 @@ module Regionable
   AMERICAS_REGIONS = ["na1", "br1", "la1", "la2"]
   EUROPE_REGIONS = ["euw1", "eun1", "tr1", "ru"]
   ASIA_REGIONS = ["kr", "jp1"]
-  SEA_REGIONS = ["oc1"]
+  SEA_REGIONS = ["oc1", "ph2", "sg2", "th2", "tw2", "vn2"]
 
   included do
     enum region: {
@@ -18,7 +18,12 @@ module Regionable
       la2: 7,
       tr1: 8,
       br1: 9,
-      ru: 10
+      ru: 10,
+      ph2: 11,
+      sg2: 12,
+      th2: 13,
+      tw2: 14,
+      vn2: 15
     }
   end
 end
