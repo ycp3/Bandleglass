@@ -35,5 +35,5 @@ services:
     env_file:
       - .env
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/bandleglass_postgresql/data
       - ../docker/db/bandleglass-role.sql:/docker-entrypoint-initdb.d/bandleglass-role.sql
