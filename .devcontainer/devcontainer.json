@@ -14,20 +14,13 @@
     "editor.formatOnSave": false,
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
-    "files.eol": "\n",
-    "runOnSave.commands": [
-      {
-        "runIn": "vscode",
-        "command": "git.refresh"
-      }
-    ]
+    "files.eol": "\n"
   },
 
 	// Add the IDs of extensions you want installed when the container is created.
   "extensions": [
     "rebornix.Ruby",
     "kaiwood.endwise",
-    "eamodio.gitlens",
-    "pucelle.run-on-save"
+    "eamodio.gitlens"
   ]
 }
