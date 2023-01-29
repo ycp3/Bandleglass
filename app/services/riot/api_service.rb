@@ -5,8 +5,7 @@ require "net/http"
 module Riot
   class ApiService
     def self.get_summoner_by_name(region:, name:)
-      path = base_url(region: region) + "lol/summoner/v4/summoners/by-name/" + name.gsub(" ", "%20")
-      request(path: path)
+      Endpoints::GetSummonerByName.call(region: region, name: name)
     end
 
     def self.get_match_ids_by_puuid(region:, puuid:, start: nil, count: nil, queue_type_id: nil)
