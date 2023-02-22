@@ -9,7 +9,7 @@ class SummonerService
       else
         summoner
       end
-    rescue Riot::ApiService::NotFoundError
+    rescue StandardError
       nil
     end
   end

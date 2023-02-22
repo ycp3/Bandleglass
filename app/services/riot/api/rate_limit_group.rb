@@ -25,8 +25,6 @@ module Riot
           existing_limit = @limits.find { |limit| limit.interval == interval }
           if existing_limit.nil?
             @limits << Api::RateLimit.new(limit: limit, count: count, interval: interval)
-          else
-            existing_limit.count = count
           end
         end
       end

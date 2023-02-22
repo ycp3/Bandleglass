@@ -4,8 +4,19 @@ require "net/http"
 
 module Riot
   class ApiService
+    @limits = {}
+    @mutex = Mutex.new
+
     def self.get_summoner_by_name(region:, name:)
-      Endpoints::GetSummonerByName.call(region: region, name: name)
+      limit(region: region)
+      request(
+        region: region,
+        endpoint: Endpoints::GetSummonerByName,
+        options: {
+          region: region,
+          name: name
+        }
+      )
     end
 
     def self.get_match_ids_by_puuid(region:, puuid:, start: nil, count: nil, queue_type_id: nil)
@@ -29,74 +40,31 @@ module Riot
       request(path: path)
     end
 
-    class BadRequestError < StandardError; end
-    class UnauthorizedError < StandardError; end
-    class ForbiddenError < StandardError; end
-    class NotFoundError < StandardError; end
-    class UnsupportedMediaTypeError < StandardError; end
-    class InternalServerError < StandardError; end
-    class ServiceUnavailable < StandardError; end
-
-    RESPONSE_CODE_TO_ERROR = {
-      400 => BadRequestError,
-      401 => UnauthorizedError,
-      403 => ForbiddenError,
-      404 => NotFoundError,
-      415 => UnsupportedMediaTypeError,
-      500 => InternalServerError,
-      503 => ServiceUnavailable
-    }
-
     private
 
-    def self.add_params(path:, **params)
-      path += "?"
-      params.each do |key, value|
-        path += "&#{key}=#{value}" if value.present?
-      end
-      return path
-    end
+    def self.request(region:, endpoint:, options:, platform: false)
+      response = endpoint.call(**options)
+      limited_region = platform ? Regionable.region_to_platform(region: region) : region
+      limits = limits_for_region(region: limited_region)
 
-    def self.request(path:)
-      uri = URI(path)
-      request_object = Net::HTTP::Get.new(uri)
-      request_object["X-Riot-Token"] = ENV["RIOT_API_KEY"]
-      response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request_object) }
-
-      code = response.code.to_i
-      if code == 200
+      code = response.code
+      if code == "200"
+        limits.add_limits_from_response(response: response)
         JSON.parse(response.body)
-      elsif code == 429
-        sleep(response["Retry-After"].to_i)
-        request(path: path)
-      else
-        raise RESPONSE_CODE_TO_ERROR[code]
+      elsif code == "429"
+        limits.pause_requests(duration: response["Retry-After"].to_i)
+        request(region: region, endpoint: endpoint, options: options)
       end
     end
 
-    def self.base_url(region:, platform: false)
-      host = if platform
-        region_to_platform(region: region)
-      else
-        region
-      end
-
-      "https://" + host + ".api.riotgames.com/"
+    def self.limit(region:, platform: false)
+      region = Regionable.region_to_platform(region: region) if platform
+      limits_for_region(region: region).request
     end
 
-    def self.base_url_closest
-      "https://americas.api.riotgames.com/"
-    end
-
-    def self.region_to_platform(region:)
-      if Regionable::AMERICAS_REGIONS.include? region
-        "americas"
-      elsif Regionable::EUROPE_REGIONS.include? region
-        "europe"
-      elsif Regionable::ASIA_REGIONS.include? region
-        "asia"
-      elsif Regionable::SEA_REGIONS.include? region
-        "sea"
+    def self.limits_for_region(region:)
+      @mutex.synchronize do
+        @limits[region] ||= Api::RateLimitGroup.new(use_app_headers: true)
       end
     end
   end

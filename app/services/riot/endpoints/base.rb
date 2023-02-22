@@ -12,19 +12,20 @@ module Riot
       uri = URI(path)
       request_object = Net::HTTP::Get.new(uri)
       request_object["X-Riot-Token"] = ENV["RIOT_API_KEY"]
-      limits_for_region(region: region).request
+      limits = limits_for_region(region: region)
+      limits.request
       response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request_object) }
 
       code = response.code
       if code == "200"
-        limits_for_region(region: region).add_limits_from_response(response: response)
-        JSON.parse(response.body)
+        limits.add_limits_from_response(response: response)
       elsif code == "429"
-        limits_for_region(region: region).pause_requests(duration: response["Retry-After"].to_i)
-        request(region: region, path: path)
+        limits.pause_requests(duration: response["Retry-After"].to_i)
       else
         raise Net::HTTPResponse::CODE_TO_OBJ[code]
       end
+
+      response
     end
 
     def self.limits_for_region(region:)
@@ -33,9 +34,18 @@ module Riot
       end
     end
 
+    def self.add_params(path:, **params)
+      path += "?"
+      params.each do |key, value|
+        path += "&#{key}=#{value}" if value.present?
+      end
+
+      path
+    end
+
     def self.base_url(region:, platform: false)
       host = if platform
-        region_to_platform(region: region)
+        Regionable.region_to_platform(region: region)
       else
         region
       end
@@ -45,18 +55,6 @@ module Riot
 
     def self.base_url_closest
       "https://americas.api.riotgames.com/"
-    end
-
-    def self.region_to_platform(region:)
-      if Regionable::AMERICAS_REGIONS.include? region
-        "americas"
-      elsif Regionable::EUROPE_REGIONS.include? region
-        "europe"
-      elsif Regionable::ASIA_REGIONS.include? region
-        "asia"
-      elsif Regionable::SEA_REGIONS.include? region
-        "sea"
-      end
     end
   end
 end

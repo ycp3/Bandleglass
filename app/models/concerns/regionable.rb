@@ -26,4 +26,16 @@ module Regionable
       vn2: 15
     }
   end
+
+  def self.region_to_platform(region:)
+    if Regionable::AMERICAS_REGIONS.include? region
+      "americas"
+    elsif Regionable::EUROPE_REGIONS.include? region
+      "europe"
+    elsif Regionable::ASIA_REGIONS.include? region
+      "asia"
+    elsif Regionable::SEA_REGIONS.include? region
+      "sea"
+    end
+  end
 end
