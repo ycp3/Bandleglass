@@ -20,32 +20,51 @@ module Riot
     end
 
     def self.get_match_ids_by_puuid(region:, puuid:, start: nil, count: nil, queue_type_id: nil)
-      path = base_url(region: region, platform: true) + "lol/match/v5/matches/by-puuid/#{puuid}/ids"
-      path = add_params(
-        path: path,
-        start: start,
-        count: count,
-        queue_type: queue_type_id
+      region = Regionable.region_to_platform(region: region)
+      limit(region: region)
+      request(
+        region: region,
+        endpoint: Endpoints::GetMatchIdsByPuuid,
+        options: {
+          region: region,
+          puuid: puuid,
+          start: start,
+          count: count,
+          queue_type_id: queue_type_id
+        }
       )
-      request(path: path)
     end
 
     def self.get_match_by_match_id(region:, match_id:)
-      path = base_url(region: region, platform: true) + "lol/match/v5/matches/" + match_id
-      request(path: path)
+      region = Regionable.region_to_platform(region: region)
+      limit(region: region)
+      request(
+        region: region,
+        endpoint: Endpoints::GetMatchByMatchId,
+        options: {
+          region: region,
+          match_id: match_id
+        }
+      )
     end
 
     def self.get_league_entries_by_summoner_id(region:, summoner_id:)
-      path = base_url(region: region) + "lol/league/v4/entries/by-summoner/" + summoner_id
-      request(path: path)
+      limit(region: region)
+      request(
+        region: region,
+        endpoint: Endpoints::GetLeagueEntriesBySummonerId,
+        options: {
+          region: region,
+          summoner_id: summoner_id
+        }
+      )
     end
 
     private
 
-    def self.request(region:, endpoint:, options:, platform: false)
+    def self.request(region:, endpoint:, options:)
       response = endpoint.call(**options)
-      limited_region = platform ? Regionable.region_to_platform(region: region) : region
-      limits = limits_for_region(region: limited_region)
+      limits = limits_for_region(region: region)
 
       code = response.code
       if code == "200"
@@ -57,8 +76,7 @@ module Riot
       end
     end
 
-    def self.limit(region:, platform: false)
-      region = Regionable.region_to_platform(region: region) if platform
+    def self.limit(region:)
       limits_for_region(region: region).request
     end
 

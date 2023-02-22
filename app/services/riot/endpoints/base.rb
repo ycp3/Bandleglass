@@ -22,7 +22,7 @@ module Riot
       elsif code == "429"
         limits.pause_requests(duration: response["Retry-After"].to_i)
       else
-        raise Net::HTTPResponse::CODE_TO_OBJ[code]
+        raise ArgumentError.new(code)
       end
 
       response
@@ -43,14 +43,8 @@ module Riot
       path
     end
 
-    def self.base_url(region:, platform: false)
-      host = if platform
-        Regionable.region_to_platform(region: region)
-      else
-        region
-      end
-
-      "https://" + host + ".api.riotgames.com/"
+    def self.base_url(region:)
+      "https://" + region + ".api.riotgames.com/"
     end
 
     def self.base_url_closest
