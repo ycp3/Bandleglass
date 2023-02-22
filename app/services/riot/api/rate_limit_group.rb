@@ -39,7 +39,7 @@ module Riot
     private
 
     def wait_until_free
-      sleep(@limits.filter(&:limited?).max_by(&:wait_for)) if limited?
+      sleep(@limits.filter(&:limited?).map(&:wait_for).max) if limited?
     end
 
     def limit_header
