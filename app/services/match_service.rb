@@ -2,16 +2,20 @@
 
 class MatchService
   def self.update_matches_for_summoner(summoner:)
-    match_ids = Riot::ApiService.get_match_ids_by_puuid(region: summoner.region, puuid: summoner.puuid)
-    match_ids.each do |match_id|
-      create_match(region: summoner.region, match_id: match_id) unless Match.exists? match_id: match_id
-    end
+    match_ids = Riot::ApiService.get_match_ids_by_puuid(region: summoner.region, puuid: summoner.puuid).reject { |match_id| Match.exists? match_id }
+    match_data = []
+    mutex = Mutex.new
+    match_ids.map do |match_id|
+      Thread.new { mutex.synchronize { match_data << Riot::ApiService.get_match_by_match_id(region: summoner.region, match_id: match_id) } }
+    end.each(&:join)
+
+    match_data.each { |data| create_match(region: summoner.region, match_data: data) }
   end
 
   private
 
-  def self.create_match(region:, match_id:)
-    match_data = Riot::ApiService.get_match_by_match_id(region: region, match_id: match_id)
+  def self.create_match(region:, match_data:)
+    match_id = match_data["metadata"]["matchId"]
     match_data = match_data["info"]
     patch = match_data["gameVersion"].split(".")
     patch = "#{patch[0]}.#{patch[1]}"
@@ -82,12 +86,13 @@ class MatchService
         red_team
       end
 
-      RankService.update_ranks_for_summoner(summoner: summoner)
-      rank = if match.ranked_flex?
-        summoner.flex_rank
-      else
-        summoner.rank
-      end
+      # RankService.update_ranks_for_summoner(summoner: summoner)
+      # rank = if match.ranked_flex?
+      #   summoner.flex_rank
+      # else
+      #   summoner.rank
+      # end
+      rank = nil
 
       position = if participant_data["teamPosition"] == "UTILITY"
         "SUPPORT"
