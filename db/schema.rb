@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_30_052732) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_23_001211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,16 +48,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_30_052732) do
     t.index ["match_id"], name: "index_matches_on_match_id", unique: true
   end
 
-  create_table "participant_items", force: :cascade do |t|
-    t.bigint "participant_id"
-    t.bigint "item_id"
-    t.integer "slot"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_participant_items_on_item_id"
-    t.index ["participant_id"], name: "index_participant_items_on_participant_id"
-  end
-
   create_table "participants", force: :cascade do |t|
     t.bigint "summoner_id"
     t.bigint "match_id"
@@ -85,6 +75,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_30_052732) do
     t.integer "vision_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "items", default: [], array: true
     t.index ["champion_id"], name: "index_participants_on_champion_id"
     t.index ["match_id"], name: "index_participants_on_match_id"
     t.index ["summoner_id"], name: "index_participants_on_summoner_id"
@@ -241,8 +232,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_30_052732) do
     t.index ["match_id"], name: "index_teams_on_match_id"
   end
 
-  add_foreign_key "participant_items", "items"
-  add_foreign_key "participant_items", "participants"
   add_foreign_key "participants", "champions"
   add_foreign_key "participants", "matches"
   add_foreign_key "participants", "summoner_spells", column: "summoner_spell_1_id"

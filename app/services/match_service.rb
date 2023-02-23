@@ -119,7 +119,8 @@ class MatchService
         damage_dealt: participant_data["totalDamageDealtToChampions"],
         damage_taken: participant_data["totalDamageTaken"],
         cs: participant_data["totalMinionsKilled"] + participant_data["neutralMinionsKilled"],
-        vision_score: participant_data["visionScore"]
+        vision_score: participant_data["visionScore"],
+        items: 7.times.map { |i| participant_data["item#{i}"] }
       )
 
       Performance.create!(
@@ -174,16 +175,6 @@ class MatchService
         flex_stat: rune_page_data["statPerks"]["flex"],
         defense_stat: rune_page_data["statPerks"]["defense"]
       )
-
-      7.times do |index|
-        next if participant_data["item#{index}"] == 0
-
-        ParticipantItem.create!(
-          participant: participant,
-          item_id: participant_data["item#{index}"],
-          slot: index
-        )
-      end
     end
   end
 end
