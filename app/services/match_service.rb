@@ -2,11 +2,16 @@
 
 class MatchService
   def self.update_matches_for_summoner(summoner:)
-    match_ids = Riot::ApiService.get_match_ids_by_puuid(region: summoner.region, puuid: summoner.puuid).reject { |match_id| Match.exists? match_id }
+    match_ids = Riot::ApiService.get_match_ids_by_puuid(region: summoner.region, puuid: summoner.puuid).reject { |match_id| Match.exists? match_id: match_id }
     match_data = []
     mutex = Mutex.new
     match_ids.map do |match_id|
-      Thread.new { mutex.synchronize { match_data << Riot::ApiService.get_match_by_match_id(region: summoner.region, match_id: match_id) } }
+      Thread.new do
+        data = Riot::ApiService.get_match_by_match_id(region: summoner.region, match_id: match_id)
+        mutex.synchronize do
+          match_data << data
+        end
+      end
     end.each(&:join)
 
     match_data.each { |data| create_match(region: summoner.region, match_data: data) }
@@ -22,7 +27,7 @@ class MatchService
     match = Match.create!(
       match_id: match_id,
       region: match_data["platformId"].downcase,
-      started_at: Time.at(match_data["gameCreation"]),
+      started_at: Time.at(match_data["gameCreation"] / 1000),
       duration: match_data["gameDuration"],
       game_version: patch,
       map: match_data["mapId"],

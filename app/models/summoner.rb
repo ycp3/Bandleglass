@@ -7,6 +7,7 @@ class Summoner < ApplicationRecord
   scope :by_name, ->(name) { where("lower(name) = ?", name.strip.downcase) }
 
   has_many :participants
+  has_many :teams, through: :participants
   has_many :matches, through: :participants
 
   has_many :ranks, dependent: :destroy
