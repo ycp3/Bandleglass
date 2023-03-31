@@ -31,4 +31,12 @@ class Match < ApplicationRecord
     tutorial_2: 2010,
     tutorial_3: 2020
   }
+
+  def finished_at
+    created_at + duration.seconds
+  end
+
+  def time
+    "#{duration / 60}:#{duration % 60}"
+  end
 end
