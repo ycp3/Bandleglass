@@ -10,6 +10,9 @@ class Participant < ApplicationRecord
   has_one :rune_page, dependent: :destroy
   has_one :performance, dependent: :destroy
 
+  has_many :participant_items, -> { order(:slot) }, dependent: :destroy
+  has_many :items, through: :participant_items
+
   enum position: {
     top: 0,
     jungle: 1,

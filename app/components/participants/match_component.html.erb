@@ -13,12 +13,28 @@
   </div>
   <div class="flex gap-1">
     <div class="flex flex-col gap-1">
-      <%= image_tag @participant.rune_page.keystone.image_path, class: "w-7 h-7 rounded-full #{dark_bg_class}", data: { te_toggle: :popover, te_html: true, te_title: @participant.rune_page.keystone.name, te_content: @participant.rune_page.keystone.description } %>
-      <%= image_tag @participant.rune_page.secondary_tree.image_path, class: "w-7 h-7 rounded-full p-1 #{dark_bg_class}" %>
+      <%= image_tag @participant.rune_page.keystone.image_path, class: "w-7 h-7 rounded-full #{dark_bg_class}",
+        data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: @participant.rune_page.keystone.name, te_content: @participant.rune_page.keystone.description } %>
+      <%= image_tag @participant.rune_page.secondary_tree.image_path, class: "w-7 h-7 rounded-full p-1 #{dark_bg_class}",
+        data: { te_toggle: :tooltip, te_placement: :bottom, te_title: @participant.rune_page.secondary_tree.name } %>
     </div>
     <div class="flex flex-col gap-1">
-      <%= image_tag @participant.summoner_spell_1.image_path, class: "w-7 h-7 rounded" %>
-      <%= image_tag @participant.summoner_spell_2.image_path, class: "w-7 h-7 rounded" %>
+      <%= image_tag @participant.summoner_spell_1.image_path, class: "w-7 h-7 rounded",
+        data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: @participant.summoner_spell_1.name, te_content: @participant.summoner_spell_1.description } %>
+      <%= image_tag @participant.summoner_spell_2.image_path, class: "w-7 h-7 rounded",
+        data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: @participant.summoner_spell_2.name, te_content: @participant.summoner_spell_2.description } %>
+    </div>
+  </div>
+  <div class="flex flex-col gap-5">
+    <div class="flex justify-between">
+      <strong><%= @participant.kills %> / <%= @participant.deaths %> / <%= @participant.assists %></strong>
+      <div></div>
+    </div>
+    <div class="flex gap-1">
+      <% @participant.participant_items.each do |participant_item| %>
+        <%= image_tag participant_item.item.image_path, class: "w-10 h-10 #{participant_item.trinket? ? "rounded-full" : "rounded"}",
+          data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: participant_item.item.name, te_content: participant_item.item.description } %>
+      <% end %>
     </div>
   </div>
 </div>
