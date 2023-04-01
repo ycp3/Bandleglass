@@ -1,12 +1,14 @@
 <div class="max-h-36 p-8 rounded-lg flex items-center text-center gap-8 <%= bg_class %>">
-  <div class="flex flex-col items-center justify-evenly">
+  <div class="flex flex-col items-center justify-evenly w-24">
     <strong class="text-2xl <%= text_class %>"><%= @team.win ? "WIN" : "LOSS" %></strong>
     <p><%= @match.time %></p>
-    <p><%= time_ago_in_words @match.finished_at %> ago</p>
+    <small class="text-xs"><%= time_ago_in_words @match.finished_at %> ago</small class="text-xs">
   </div>
   <div class="flex flex-col items-center gap-2 border-l pl-8">
-    <%= image_tag @participant.champion.image_path, class: "rounded-full #{border_class} border-2 max-h-16" %>
+    <div class="relative">
+      <%= image_tag @participant.champion.image_path, class: "rounded-full #{border_class} border-2 max-h-16" %>
+      <div class="absolute right-0 bottom-0 bg-gray-700 rounded-full text-white flex justify-center items-center h-6 w-6"><%= @participant.champion_level %></div>
+    </div>
     <strong><%= @participant.champion.name %></strong>
   </div>
-
 </div>
