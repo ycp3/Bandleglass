@@ -4,6 +4,8 @@ class Participant < ApplicationRecord
   belongs_to :match
 
   belongs_to :champion
+  belongs_to :summoner_spell_1, class_name: :SummonerSpell
+  belongs_to :summoner_spell_2, class_name: :SummonerSpell
 
   has_one :rune_page, dependent: :destroy
   has_one :performance, dependent: :destroy

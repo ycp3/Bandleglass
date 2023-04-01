@@ -2,13 +2,23 @@
   <div class="flex flex-col items-center justify-evenly w-24">
     <strong class="text-2xl <%= text_class %>"><%= @team.win ? "WIN" : "LOSS" %></strong>
     <p><%= @match.time %></p>
-    <small class="text-xs"><%= time_ago_in_words @match.finished_at %> ago</small class="text-xs">
+    <small class="text-xs"><%= time_ago_in_words @match.finished_at %> ago</small>
   </div>
   <div class="flex flex-col items-center gap-2 border-l pl-8">
     <div class="relative">
       <%= image_tag @participant.champion.image_path, class: "rounded-full #{border_class} border-2 max-h-16" %>
-      <div class="absolute right-0 bottom-0 bg-gray-700 rounded-full text-white flex justify-center items-center h-6 w-6"><%= @participant.champion_level %></div>
+      <div class="absolute right-0 bottom-0 bg-gray-700 rounded-full text-white flex justify-center items-center h-6 w-6 text-sm"><%= @participant.champion_level %></div>
     </div>
     <strong><%= @participant.champion.name %></strong>
+  </div>
+  <div class="flex gap-1">
+    <div class="flex flex-col gap-1">
+      <%= image_tag @participant.rune_page.keystone.image_path, class: "w-7 h-7 rounded-full #{dark_bg_class}", data: { te_toggle: :popover, te_html: true, te_title: @participant.rune_page.keystone.name, te_content: @participant.rune_page.keystone.description } %>
+      <%= image_tag @participant.rune_page.secondary_tree.image_path, class: "w-7 h-7 rounded-full p-1 #{dark_bg_class}" %>
+    </div>
+    <div class="flex flex-col gap-1">
+      <%= image_tag @participant.summoner_spell_1.image_path, class: "w-7 h-7 rounded" %>
+      <%= image_tag @participant.summoner_spell_2.image_path, class: "w-7 h-7 rounded" %>
+    </div>
   </div>
 </div>

@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
+lol-uikit-tooltipped-keyword[key="LinkTooltip_Description_AdaptiveDmg"] {
+  color: #8445FF;
+}

@@ -33,7 +33,7 @@ class Match < ApplicationRecord
   }
 
   def finished_at
-    created_at + duration.seconds
+    started_at + duration.seconds
   end
 
   def time

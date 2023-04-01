@@ -15,6 +15,14 @@ class Participants::MatchComponent < ApplicationComponent
     end
   end
 
+  def dark_bg_class
+    if @team.win
+      "bg-blue-900"
+    else
+      "bg-red-900"
+    end
+  end
+
   def border_class
     if @team.win
       "border-blue-500"
@@ -25,9 +33,9 @@ class Participants::MatchComponent < ApplicationComponent
 
   def text_class
     if @team.win
-      "text-blue-700"
+      "text-blue-900"
     else
-      "text-red-700"
+      "text-red-900"
     end
   end
 end

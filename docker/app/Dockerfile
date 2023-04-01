@@ -6,12 +6,9 @@ RUN apt-get update -q && \
   build-essential \
   git \
   gpg \
-  nodejs \
-  npm \
   postgresql-client && \
   apt-get upgrade -y \
   openssh-client
-RUN npm install --global yarn
 
 # App location is /app
 WORKDIR /app

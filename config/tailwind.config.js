@@ -6,8 +6,7 @@ module.exports = {
     './app/helpers/**/*.rb',
     './app/javascript/**/*.js',
     './app/views/**/*.{erb,haml,html,slim}',
-    './app/components/**/*.{rb,erb}',
-    './node_modules/tw-elements/dist/js/**/*.js'
+    './app/components/**/*.{rb,erb}'
   ],
   theme: {
     extend: {
@@ -21,7 +20,6 @@ module.exports = {
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/line-clamp'),
-    require('@tailwindcss/container-queries'),
-    require('tw-elements/dist/plugin')
+    require('@tailwindcss/container-queries')
   ]
 }
