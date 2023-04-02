@@ -72,13 +72,21 @@ module Riot
         data = data["data"]
         data.each do |id, item_data|
           item = Item.find_or_initialize_by(id: id)
+
+          type = if item_data["description"].include?("<ornnBonus>")
+            :ornn_upgrade
+          elsif item_data["description"].include?("<rarityMythic>")
+            :mythic
+          else
+            :basic
+          end
+
           item.update!(
             name: item_data["name"],
-            description: item_data["description"],
+            description: item_data["description"].delete_suffix("<br>"),
             cost: item_data["gold"]["total"],
             sell_value: item_data["gold"]["sell"],
-            ornn_upgrade: item_data["description"].include?("<ornnBonus>"),
-            mythic: item_data["description"].include?("<rarityMythic>")
+            item_type: type
           )
         end
       end

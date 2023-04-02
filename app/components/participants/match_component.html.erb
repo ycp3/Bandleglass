@@ -32,7 +32,7 @@
     </div>
     <div class="flex gap-1">
       <% @participant.participant_items.each do |participant_item| %>
-        <%= image_tag participant_item.item.image_path, class: "w-10 h-10 #{participant_item.trinket? ? "rounded-full" : "rounded"}",
+        <%= image_tag participant_item.item.image_path, class: "w-10 h-10 #{participant_item.trinket? ? "rounded-full" : "rounded"} #{"outline outline-2 outline-yellow-400" unless participant_item.item.basic?}",
           data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: participant_item.item.name, te_content: participant_item.item.description } %>
       <% end %>
     </div>

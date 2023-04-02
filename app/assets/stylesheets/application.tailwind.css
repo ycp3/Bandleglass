@@ -11,3 +11,29 @@
 }
 
 */
+
+@layer base {
+  lol-uikit-tooltipped-keyword[key="LinkTooltip_Description_AdaptiveDmg"] {
+    @apply text-violet-600;
+  }
+
+  stats {
+    @apply italic;
+  }
+
+  attention {
+    @apply not-italic font-bold;
+  }
+
+  scaleMR {
+    @apply text-sky-400;
+  }
+
+  rarityMythic {
+    @apply text-yellow-500 font-bold;
+  }
+}
+
+.popover-body {
+  @apply text-xs;
+}
