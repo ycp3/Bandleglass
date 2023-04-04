@@ -25,12 +25,88 @@
     @apply not-italic font-bold;
   }
 
+  physicalDamage, scaleAD {
+    @apply text-orange-600;
+  }
+
+  magicDamage, scaleAP {
+    @apply text-purple-600;
+  }
+
+  trueDamage {
+    @apply text-sky-300;
+  }
+
+  OnHit {
+    @apply text-indigo-500 italic;
+  }
+
   scaleMR {
     @apply text-sky-400;
   }
 
+  scaleMana, shield {
+    @apply text-blue-600;
+  }
+
+  scaleArmor {
+    @apply text-orange-500;
+  }
+
+  scalehealth, scaleHealth {
+    @apply text-green-600;
+  }
+
+  healing {
+    @apply text-green-400;
+  }
+
+  lifeSteal {
+    @apply text-red-700;
+  }
+
+  scaleLethality {
+    @apply text-red-900;
+  }
+
   rarityMythic {
     @apply text-yellow-500 font-bold;
+  }
+
+  rarityLegendary {
+    @apply text-green-500 font-bold;
+  }
+
+  unique {
+    @apply text-green-700 font-bold;
+  }
+
+  rarityGeneric {
+    @apply text-blue-500 font-bold;
+  }
+
+  ornnBonus {
+    @apply text-red-500 not-italic font-bold;
+  }
+
+  passive, rules, spellPassive {
+    @apply italic;
+  }
+
+  active, keywordMajor, spellActive {
+    @apply font-bold;
+  }
+
+  status, speed, keywordStealth {
+    @apply text-yellow-500 italic;
+  }
+
+  flavorText {
+    @apply text-neutral-400 italic;
+  }
+
+  goldGain, attackSpeed {
+    @apply text-yellow-500;
   }
 }
 
