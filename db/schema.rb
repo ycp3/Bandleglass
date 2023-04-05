@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_01_162711) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_05_064422) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -237,6 +237,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_01_162711) do
     t.datetime "updated_at", null: false
     t.boolean "surrendered"
     t.integer "banned_champion_ids", default: [], array: true
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
     t.index ["match_id"], name: "index_teams_on_match_id"
   end
 

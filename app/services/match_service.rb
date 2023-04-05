@@ -186,8 +186,6 @@ class MatchService
       )
 
       7.times do |index|
-        next if participant_data["item#{index}"].zero?
-
         ParticipantItem.create!(
           participant: participant,
           item_id: participant_data["item#{index}"],
@@ -195,5 +193,17 @@ class MatchService
         )
       end
     end
+
+    red_team.update!(
+      kills: red_team.participants.sum(:kills),
+      deaths: red_team.participants.sum(:deaths),
+      assists: red_team.participants.sum(:assists)
+    )
+
+    blue_team.update!(
+      kills: blue_team.participants.sum(:kills),
+      deaths: blue_team.participants.sum(:deaths),
+      assists: blue_team.participants.sum(:assists)
+    )
   end
 end

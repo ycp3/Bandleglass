@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Match < ApplicationRecord
   include Regionable
 
@@ -5,8 +7,8 @@ class Match < ApplicationRecord
 
   has_many :participants, through: :teams
   
-  has_one :blue_team, -> { blue }, class_name: :Team
-  has_one :red_team, -> { red }, class_name: :Team
+  has_one :blue_team, -> { blue }, class_name: :Team, dependent: :destroy
+  has_one :red_team, -> { red }, class_name: :Team, dependent: :destroy
 
   enum map: {
     summoners_rift: 11,
@@ -40,5 +42,9 @@ class Match < ApplicationRecord
 
   def time
     "#{duration / 60}:#{duration % 60}"
+  end
+
+  def queue
+    aram? ? "ARAM" : queue_type.titleize
   end
 end

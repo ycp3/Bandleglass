@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Participants::MatchComponent < ApplicationComponent
+  with_collection_parameter :participant
+
   def initialize(participant:)
     @participant = participant
     @team = @participant.team

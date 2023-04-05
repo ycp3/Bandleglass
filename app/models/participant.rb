@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Participant < ApplicationRecord
   belongs_to :summoner
   belongs_to :team
@@ -21,12 +23,23 @@ class Participant < ApplicationRecord
     support: 4
   }
 
+  scope :preload_all, -> {
+    includes(
+      :team, :performance, :items, :champion, :summoner, :summoner_spell_1, :summoner_spell_2,
+      rune_page: [:keystone, primary_tree: :runes, secondary_tree: :runes],
+      match: [
+        red_team: { participants: [:items, :summoner, :champion] },
+        blue_team: { participants: [:items, :summoner, :champion] }
+      ]
+    )
+  }
+
   def kda
-    ((kills + assists) / deaths.to_f).round(2)
+    ((kills + assists) / deaths.to_f).round(2) rescue "Perfect"
   end
 
   def kill_participation
-    ((kills + assists) * 100 / team.kills).round(1)
+    ((kills + assists) * 100 / team.kills).round(1) rescue 0
   end
 
   def cs_per_min

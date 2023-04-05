@@ -90,6 +90,8 @@ module Riot
           )
         end
       end
+
+      Item.find_or_create_by!(id: 0)
     end
 
     def self.update_champions!
