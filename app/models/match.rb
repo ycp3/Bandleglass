@@ -5,10 +5,25 @@ class Match < ApplicationRecord
 
   validates :match_id, uniqueness: true
 
+  has_many :teams, dependent: :destroy
   has_many :participants, through: :teams
   
   has_one :blue_team, -> { blue }, class_name: :Team, dependent: :destroy
   has_one :red_team, -> { red }, class_name: :Team, dependent: :destroy
+
+  scope :load_all, -> {
+    includes(
+      red_team: { participants: [:items, :summoner, :champion, :summoner_spell_1, :summoner_spell_2, :performance, rune_page: [:keystone, :secondary_tree]] },
+      blue_team: { participants: [:items, :summoner, :champion, :summoner_spell_1, :summoner_spell_2, :performance, rune_page: [:keystone, :secondary_tree]] }
+    )
+  }
+
+  scope :load_participants, -> {
+    includes(
+      red_team: { participants: [:summoner, :champion] },
+      blue_team: { participants: [:summoner, :champion] }
+    )
+  }
 
   enum map: {
     summoners_rift: 11,

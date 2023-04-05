@@ -7,7 +7,9 @@
   </div>
   <div class="flex flex-col items-center gap-2 border-l pl-4">
     <div class="relative">
-      <%= image_tag @participant.champion.image_path, class: "rounded-full #{border_class} border-2 max-h-16" %>
+      <div class="rounded-full border-2 <%= border_class %> h-16 overflow-hidden w-16">
+        <%= image_tag @participant.champion.image_path, class: "scale-[1.15]" %>
+      </div>
       <div class="absolute right-0 bottom-0 bg-gray-700 rounded-full text-white flex justify-center items-center h-6 w-6 text-sm"><%= @participant.champion_level %></div>
     </div>
     <strong><%= @participant.champion.name %></strong>

@@ -23,14 +23,10 @@ class Participant < ApplicationRecord
     support: 4
   }
 
-  scope :preload_all, -> {
+  scope :load_all, -> {
     includes(
-      :team, :performance, :items, :champion, :summoner, :summoner_spell_1, :summoner_spell_2,
-      rune_page: [:keystone, primary_tree: :runes, secondary_tree: :runes],
-      match: [
-        red_team: { participants: [:items, :summoner, :champion] },
-        blue_team: { participants: [:items, :summoner, :champion] }
-      ]
+      :team, :performance, :items, :champion, :summoner, :summoner_spell_1, :summoner_spell_2, :match,
+      rune_page: [:keystone, primary_tree: :runes, secondary_tree: :runes]
     )
   }
 

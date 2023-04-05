@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-class Participants::MatchComponent < ApplicationComponent
-  with_collection_parameter :participant
+class Matches::CardComponent < ApplicationComponent
+  with_collection_parameter :match
 
-  def initialize(participant:)
-    @participant = participant
+  def initialize(match:, summoner:)
+    @match = match
+    @participant = match.participants.find_by(summoner: summoner)
     @team = @participant.team
-    @match = @participant.match
   end
 
   def bg_class

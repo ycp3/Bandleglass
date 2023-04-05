@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_05_064422) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_05_153632) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -150,17 +150,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_064422) do
     t.bigint "participant_id"
     t.bigint "primary_tree_id"
     t.bigint "keystone_id"
-    t.integer "primary_rune_ids", default: [], array: true
     t.bigint "secondary_tree_id"
-    t.integer "secondary_rune_ids", default: [], array: true
     t.integer "offense_stat"
     t.integer "flex_stat"
     t.integer "defense_stat"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "row_1_id"
+    t.bigint "row_2_id"
+    t.bigint "row_3_id"
+    t.bigint "secondary_rune_1_id"
+    t.bigint "secondary_rune_2_id"
     t.index ["keystone_id"], name: "index_rune_pages_on_keystone_id"
     t.index ["participant_id"], name: "index_rune_pages_on_participant_id"
     t.index ["primary_tree_id"], name: "index_rune_pages_on_primary_tree_id"
+    t.index ["row_1_id"], name: "index_rune_pages_on_row_1_id"
+    t.index ["row_2_id"], name: "index_rune_pages_on_row_2_id"
+    t.index ["row_3_id"], name: "index_rune_pages_on_row_3_id"
+    t.index ["secondary_rune_1_id"], name: "index_rune_pages_on_secondary_rune_1_id"
+    t.index ["secondary_rune_2_id"], name: "index_rune_pages_on_secondary_rune_2_id"
     t.index ["secondary_tree_id"], name: "index_rune_pages_on_secondary_tree_id"
   end
 
@@ -257,6 +265,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_064422) do
   add_foreign_key "rune_pages", "rune_trees", column: "primary_tree_id"
   add_foreign_key "rune_pages", "rune_trees", column: "secondary_tree_id"
   add_foreign_key "rune_pages", "runes", column: "keystone_id"
+  add_foreign_key "rune_pages", "runes", column: "row_1_id"
+  add_foreign_key "rune_pages", "runes", column: "row_2_id"
+  add_foreign_key "rune_pages", "runes", column: "row_3_id"
+  add_foreign_key "rune_pages", "runes", column: "secondary_rune_1_id"
+  add_foreign_key "rune_pages", "runes", column: "secondary_rune_2_id"
   add_foreign_key "runes", "rune_trees"
   add_foreign_key "spells", "champions"
   add_foreign_key "teams", "matches"
