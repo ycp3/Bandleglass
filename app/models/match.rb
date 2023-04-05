@@ -41,7 +41,7 @@ class Match < ApplicationRecord
   end
 
   def time
-    "#{duration / 60}:#{duration % 60}"
+    "#{duration / 60}:#{format("%02d", duration % 60)}"
   end
 
   def queue
