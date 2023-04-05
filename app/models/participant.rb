@@ -20,4 +20,16 @@ class Participant < ApplicationRecord
     bottom: 3,
     support: 4
   }
+
+  def kda
+    ((kills + assists) / deaths.to_f).round(2)
+  end
+
+  def kill_participation
+    ((kills + assists) * 100 / team.kills).round(1)
+  end
+
+  def cs_per_min
+    (cs / (match.duration / 60.0)).round(1)
+  end
 end

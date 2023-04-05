@@ -1,10 +1,10 @@
-<div class="max-h-36 p-8 rounded-lg flex items-center text-center gap-8 <%= bg_class %>">
+<div class="max-h-36 p-4 rounded-lg flex items-center text-center gap-4 <%= bg_class %> text-gray-700">
   <div class="flex flex-col items-center justify-evenly w-24">
     <strong class="text-2xl <%= text_class %>"><%= @team.win ? "WIN" : "LOSS" %></strong>
     <p><%= @match.time %></p>
     <small class="text-xs"><%= time_ago_in_words @match.finished_at %> ago</small>
   </div>
-  <div class="flex flex-col items-center gap-2 border-l pl-8">
+  <div class="flex flex-col items-center gap-2 border-l pl-4">
     <div class="relative">
       <%= image_tag @participant.champion.image_path, class: "rounded-full #{border_class} border-2 max-h-16" %>
       <div class="absolute right-0 bottom-0 bg-gray-700 rounded-full text-white flex justify-center items-center h-6 w-6 text-sm"><%= @participant.champion_level %></div>
@@ -27,13 +27,60 @@
   </div>
   <div class="flex flex-col gap-5">
     <div class="flex justify-between">
-      <strong><%= @participant.kills %> / <%= @participant.deaths %> / <%= @participant.assists %></strong>
-      <div></div>
+      <div class="flex flex-col justify-evenly items-center">
+        <strong>
+          <span class="text-white">
+            <%= @participant.kills %>
+          </span>
+          /
+          <span class="text-red-900">
+            <%= @participant.deaths %>
+          </span>
+          /
+          <span class="text-white">
+            <%= @participant.assists %>
+          </span>
+        </strong>
+        <small>
+          <strong><%= @participant.kda %></strong> KDA
+        </small>
+      </div>
+      <div class="flex flex-col justify-between items-center">
+        <small>
+          <strong><%= @participant.kill_participation %>%</strong> Kill Participation
+        </small>
+        <small>
+          <strong><%= @participant.cs %></strong> CS (<%= @participant.cs_per_min %>)
+        </small>
+        <% unless @match.aram? %>
+          <small>
+            <strong><%= @participant.vision_score %></strong> Vision Score
+          </small>
+        <% end %>
+      </div>
     </div>
     <div class="flex gap-1">
       <% @participant.participant_items.each do |participant_item| %>
-        <%= image_tag participant_item.item.image_path, class: "w-10 h-10 #{participant_item.trinket? ? "rounded-full" : "rounded"} #{"outline outline-2 outline-yellow-400" unless participant_item.item.basic?}",
+        <%= image_tag participant_item.item.image_path, class: "w-8 h-8 #{participant_item.trinket? ? "rounded-full" : "rounded"} #{"outline outline-2 outline-yellow-400" unless participant_item.item.basic?}",
           data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: participant_item.item.name, te_content: participant_item.item.description } %>
+      <% end %>
+    </div>
+  </div>
+  <div class="flex gap-2 text-xs text-left">
+    <div class="flex flex-col gap-1">
+      <% @match.blue_team.participants.each do |participant| %>
+        <div class="flex gap-1 items-center">
+          <%= image_tag participant.champion.image_path, class: "w-5 h-5 rounded" %>
+          <%= link_to participant.name, summoners_path(@participant.summoner.region, @participant.summoner.name) %>
+        </div>
+      <% end %>
+    </div>
+    <div class="flex flex-col gap-1">
+      <% @match.red_team.participants.each do |participant| %>
+        <div class="flex gap-1 items-center">
+          <%= image_tag participant.champion.image_path, class: "w-5 h-5 rounded" %>
+          <%= link_to participant.name, summoners_path(@participant.summoner.region, @participant.summoner.name) %>
+        </div>
       <% end %>
     </div>
   </div>

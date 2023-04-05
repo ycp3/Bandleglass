@@ -7,4 +7,8 @@ class Team < ApplicationRecord
     blue: 100,
     red: 200
   }
+
+  def kills
+    participants.sum(:kills)
+  end
 end
