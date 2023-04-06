@@ -1,4 +1,4 @@
-<div class="max-h-36 p-4 rounded-lg flex items-center text-center gap-4 <%= bg_class %> text-gray-700">
+<div class="max-h-32 p-4 rounded-lg flex items-center text-center gap-4 <%= bg_class %> text-gray-700">
   <div class="flex flex-col items-center justify-evenly w-24">
     <strong class="text-2xl <%= text_class %>"><%= @team.win ? "WIN" : "LOSS" %></strong>
     <strong class="text-sm"><%= @match.queue %></strong>
@@ -28,7 +28,7 @@
         data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: @participant.summoner_spell_2.name, te_content: @participant.summoner_spell_2.description } %>
     </div>
   </div>
-  <div class="flex flex-col gap-5">
+  <div class="flex flex-col gap-4 justify-between">
     <div class="flex justify-around">
       <div class="flex flex-col justify-center items-center">
         <strong>

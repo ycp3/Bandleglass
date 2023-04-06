@@ -11,9 +11,9 @@ class Matches::CardComponent < ApplicationComponent
 
   def bg_class
     if @team.win
-      "bg-blue-400/75"
+      "bg-blue-400/80"
     else
-      "bg-red-400/75"
+      "bg-red-400/80"
     end
   end
 
