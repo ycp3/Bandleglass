@@ -1,5 +1,7 @@
 <p style="color: green"><%= notice %></p>
 
+<%= link_to "Update", summoner_update_matches_path(@summoner), data: { turbo_method: :put } %>
+
 <div class="flex flex-col gap-2">
   <%= render Matches::CardComponent.with_collection(@matches, summoner: @summoner) %>
 </div>

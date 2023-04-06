@@ -31,7 +31,7 @@ class Participant < ApplicationRecord
   }
 
   def kda
-    ((kills + assists) / deaths.to_f).round(2) rescue "Perfect"
+    deaths.zero? ? "Perfect" : ((kills + assists) / deaths.to_f).round(2)
   end
 
   def kill_participation

@@ -19,6 +19,18 @@ module Riot
       )
     end
 
+    def self.get_summoner_by_puuid(region:, puuid:)
+      limit(region: region)
+      request(
+        region: region,
+        endpoint: Endpoints::GetSummonerByPuuid,
+        options: {
+          region: region,
+          puuid: puuid
+        }
+      )
+    end
+
     def self.get_match_ids_by_puuid(region:, puuid:, start: nil, count: nil, queue_type_id: nil)
       region = Regionable.region_to_platform(region: region)
       limit(region: region)
