@@ -1,3 +1,6 @@
-<div class="flex flex-col gap-2">
-  <%= render Matches::CardComponent.with_collection(Summoner.first.matches.order(started_at: :desc).load_participants, summoner: Summoner.first) %>
-</div>
+<%= form_with url: nil, class: "flex w-screen h-14", data: { controller: :search, action: "submit->search#search" } do |form| %>
+  <%= select_tag :region, options_for_select(Summoner.regions.keys.map(&:upcase), :NA1), data: { search_target: :region },
+    class: "bg-gray-50 border border-gray-300 text-gray-900 text-lg text-center rounded-l-full pl-3 pr-7" %>
+  <%= text_field_tag :name, nil, placeholder: "Summoner name", data: { search_target: :name },
+    class: "rounded-r-full border border-gray-300 border-l-0 w-80 text-lg text-gray-900 pl-8" %>
+<% end %>

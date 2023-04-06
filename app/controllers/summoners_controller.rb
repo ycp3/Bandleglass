@@ -3,9 +3,9 @@ class SummonersController < ApplicationController
 
   def show
     if @summoner.present?
-      @text = "success"
+      @matches = @summoner.matches.order(started_at: :desc).limit(20).load_participants
     else
-      @text = "error"
+      redirect_to root_path, notice: "test"
     end
   end
 
