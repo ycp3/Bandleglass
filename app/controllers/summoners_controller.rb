@@ -10,10 +10,12 @@ class SummonersController < ApplicationController
   end
 
   def update_matches
-    SummonerService.update_summoner(summoner: @summoner)
-    MatchService.update_matches_for_summoner(summoner: @summoner)
-
-    redirect_to summoners_path(@summoner.region, @summoner.name)
+    if SummonerService.update_summoner(summoner: @summoner)
+      MatchService.update_matches_for_summoner(summoner: @summoner)
+      redirect_to summoners_path(@summoner.region, @summoner.name)
+    else
+      redirect_to summoners_path(@summoner.region, @summoner.name), alert: "Summoner not found, check region and search again from the main page!"
+    end
   end
 
   private

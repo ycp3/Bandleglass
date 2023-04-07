@@ -9,7 +9,7 @@ class SummonerService
       else
         summoner
       end
-    rescue StandardError
+    rescue
       nil
     end
   end
@@ -30,10 +30,14 @@ class SummonerService
   end
 
   def self.update_summoner(summoner:)
-    summoner_object = Riot::ApiService.get_summoner_by_puuid(region: summoner.region, puuid: summoner.puuid)
+    begin
+      summoner_object = Riot::ApiService.get_summoner_by_puuid(region: summoner.region, puuid: summoner.puuid)
 
-    summoner_params = construct_params(summoner_object: summoner_object)
-    summoner.update!(summoner_params)    
+      summoner_params = construct_params(summoner_object: summoner_object)
+      summoner.update!(summoner_params)
+    rescue
+      false
+    end
   end
 
   private
