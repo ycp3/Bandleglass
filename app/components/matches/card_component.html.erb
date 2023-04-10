@@ -1,79 +1,82 @@
-<div class="max-h-32 p-4 rounded-lg flex items-center text-center gap-4 <%= bg_class %> text-gray-700">
-  <div class="flex flex-col items-center justify-evenly w-24">
-    <strong class="text-2xl <%= text_class %>"><%= @team.win ? "WIN" : "LOSS" %></strong>
+<div class="max-h-32 p-2 md:p-4 rounded-lg flex items-center text-center gap-1 md:gap-4 <%= bg_class %> text-gray-700 shadow w-full md:max-w-3xl">
+  <div class="flex flex-col items-center justify-evenly w-12 md:w-36 pr-1 md:pr-0">
+    <strong class="text-lg md:text-2xl <%= text_class %>"><%= @team.win ? "WIN" : "LOSS" %></strong>
     <strong class="text-sm"><%= @match.queue %></strong>
     <p><%= @match.time %></p>
     <small class="text-xs"><%= time_ago_in_words @match.finished_at %> ago</small>
   </div>
-  <div class="flex flex-col items-center gap-2 border-l pl-4">
+  <div class="flex flex-col items-center gap-2 border-l pl-1 md:pl-4">
     <div class="relative">
-      <div class="rounded-full border-2 <%= border_class %> h-16 overflow-hidden w-16">
+      <div class="rounded-full border-2 <%= border_class %> h-12 w-12 md:h-16 md:w-16 overflow-hidden">
         <%= image_tag @participant.champion.image_path, class: "scale-[1.15]" %>
       </div>
       <div class="absolute right-0 bottom-0 bg-gray-700 rounded-full text-white flex justify-center items-center h-6 w-6 text-sm"><%= @participant.champion_level %></div>
     </div>
     <strong class="overflow-visible w-16"><%= @participant.champion.name %></strong>
   </div>
-  <div class="flex gap-1">
-    <div class="flex flex-col gap-1">
-      <%= image_tag @participant.rune_page.keystone.image_path, class: "w-7 h-7 rounded-full #{dark_bg_class}",
-        data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: @participant.rune_page.keystone.name, te_content: @participant.rune_page.keystone.description } %>
-      <%= image_tag @participant.rune_page.secondary_tree.image_path, class: "w-7 h-7 rounded-full p-1 #{dark_bg_class}",
-        data: { te_toggle: :tooltip, te_placement: :bottom, te_title: @participant.rune_page.secondary_tree.name } %>
-    </div>
-    <div class="flex flex-col gap-1">
-      <%= image_tag @participant.summoner_spell_1.image_path, class: "w-7 h-7 rounded",
-        data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: @participant.summoner_spell_1.name, te_content: @participant.summoner_spell_1.description } %>
-      <%= image_tag @participant.summoner_spell_2.image_path, class: "w-7 h-7 rounded",
-        data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: @participant.summoner_spell_2.name, te_content: @participant.summoner_spell_2.description } %>
-    </div>
-  </div>
-  <div class="flex flex-col gap-4 justify-between">
-    <div class="flex justify-around">
-      <div class="flex flex-col justify-center items-center">
-        <strong>
-          <span class="text-white">
-            <%= @participant.kills %>
-          </span>
-          /
-          <span class="text-red-900">
-            <%= @participant.deaths %>
-          </span>
-          /
-          <span class="text-white">
-            <%= @participant.assists %>
-          </span>
-        </strong>
-        <p class="text-sm">
-          <strong><%= @participant.kda %></strong> KDA
-        </p>
+  
+  <div class="flex flex-col gap-1 md:gap-2 w-full items-center md:items-end">
+    <div class="flex justify-between w-full">
+      <div class="flex gap-1 w-20">
+        <div class="flex flex-col gap-1">
+          <%= image_tag @participant.rune_page.keystone.image_path, class: "w-7 h-7 rounded-full #{dark_bg_class}",
+            data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: @participant.rune_page.keystone.name, te_content: @participant.rune_page.keystone.description } %>
+          <%= image_tag @participant.rune_page.secondary_tree.image_path, class: "w-7 h-7 rounded-full p-1 #{dark_bg_class}",
+            data: { te_toggle: :tooltip, te_placement: :bottom, te_title: @participant.rune_page.secondary_tree.name } %>
+        </div>
+        <div class="flex flex-col gap-1">
+          <%= image_tag @participant.summoner_spell_1.image_path, class: "w-7 h-7 rounded",
+            data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: @participant.summoner_spell_1.name, te_content: @participant.summoner_spell_1.description } %>
+          <%= image_tag @participant.summoner_spell_2.image_path, class: "w-7 h-7 rounded",
+            data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: @participant.summoner_spell_2.name, te_content: @participant.summoner_spell_2.description } %>
+        </div>
       </div>
-      <div class="flex flex-col justify-center items-center">
-        <small>
-          <strong><%= @participant.kill_participation %>%</strong> Kill Participation
-        </small>
-        <p class="text-sm">
-          <strong><%= @participant.cs %></strong> CS (<%= @participant.cs_per_min %>)
-        </p>
-        <% unless @match.aram? %>
+      <div class="flex justify-evenly w-full">
+        <div class="flex flex-col justify-center items-center whitespace-nowrap md:whitespace-normal">
+          <strong>
+            <span class="text-white">
+              <%= @participant.kills %>
+            </span>
+            /
+            <span class="text-red-900">
+              <%= @participant.deaths %>
+            </span>
+            /
+            <span class="text-white">
+              <%= @participant.assists %>
+            </span>
+          </strong>
+          <p class="text-sm">
+            <strong><%= @participant.kda %></strong> KDA
+          </p>
+        </div>
+        <div class="flex flex-col justify-center items-center">
           <small>
-            <strong><%= @participant.vision_score %></strong> Vision Score
+            <strong><%= @participant.kill_participation %>%</strong> Kill Participation
           </small>
-        <% end %>
+          <p class="text-sm">
+            <strong><%= @participant.cs %></strong> CS (<%= @participant.cs_per_min %>)
+          </p>
+          <% unless @match.aram? %>
+            <small>
+              <strong><%= @participant.vision_score %></strong> Vision Score
+            </small>
+          <% end %>
+        </div>
       </div>
     </div>
-    <div class="flex gap-1">
+    <div class="flex gap-1 md:gap-2">
       <% @participant.participant_items.each do |participant_item| %>
         <% if participant_item.item_id.zero? %>
-          <div class="w-8 h-8 rounded bg-neutral-500/50"></div>
+          <div class="w-7 h-7 md:w-8 md:h-8 rounded bg-neutral-500/50"></div>
         <% else %>
-          <%= image_tag participant_item.item.image_path, class: "w-8 h-8 #{participant_item.trinket? ? "rounded-full" : "rounded"} #{"outline outline-2 outline-yellow-400" unless participant_item.item.basic?}",
+          <%= image_tag participant_item.item.image_path, class: "w-7 h-7 md:w-8 md:h-8 #{participant_item.trinket? ? "rounded-full" : "rounded"} #{"outline outline-2 outline-yellow-400" unless participant_item.item.basic?}",
             data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: participant_item.item.name, te_content: participant_item.item.description } %>
         <% end %>
       <% end %>
     </div>
   </div>
-  <div class="flex gap-2 justify-between text-xs text-left">
+  <div class="hidden md:flex gap-2 justify-between text-xs text-left">
     <div class="flex flex-col gap-1 w-24">
       <% @match.blue_team.participants.each do |participant| %>
         <div class="flex gap-1 items-center">

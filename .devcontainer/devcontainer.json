@@ -21,6 +21,7 @@
   "extensions": [
     "rebornix.Ruby",
     "kaiwood.endwise",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "bradlc.vscode-tailwindcss"
   ]
 }

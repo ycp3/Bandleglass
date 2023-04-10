@@ -113,3 +113,7 @@
 .popover-body {
   @apply text-xs;
 }
+
+body {
+  @apply bg-yellow-100;
+}

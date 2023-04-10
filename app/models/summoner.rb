@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Summoner < ApplicationRecord
   include Regionable
 
@@ -18,5 +20,9 @@ class Summoner < ApplicationRecord
   
   def flex_rank
     ranks.find_by queue_type: :ranked_flex_sr
+  end
+
+  def image_path
+    "profile_icons/#{profile_icon_id}.png"
   end
 end
