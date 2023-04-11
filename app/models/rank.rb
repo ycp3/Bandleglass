@@ -38,4 +38,8 @@ class Rank < ApplicationRecord
   def master_tier?
     master? || grandmaster? || challenger?
   end
+
+  def winrate
+    (wins * 100 / (wins + losses).to_f).round(1)
+  end
 end

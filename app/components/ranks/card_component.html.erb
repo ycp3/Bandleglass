@@ -1,3 +1,12 @@
 <div class="rounded flex flex-col bg-white shadow p-16">
-  <%= @rank %>
+  <% if @rank.present? %>
+      <%= @rank %>
+      <%= @rank.winrate %>
+      <%= @rank.wins %> Wins
+      <%= @rank.losses %> Losses
+  <% else %>
+    <div class="text-center text-neutral-400 text-sm">
+      No <%= rank_type %> rank to display
+    </div>
+  <% end %>
 </div>

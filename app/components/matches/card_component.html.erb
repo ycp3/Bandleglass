@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="flex justify-evenly w-full">
-        <div class="flex flex-col justify-center items-center whitespace-nowrap md:whitespace-normal">
+        <div class="flex flex-col justify-center items-center whitespace-nowrap">
           <strong>
             <span class="text-white">
               <%= @participant.kills %>
@@ -81,7 +81,7 @@
       <% @match.blue_team.participants.each do |participant| %>
         <div class="flex gap-1 items-center">
           <%= image_tag participant.champion.image_path, class: "w-5 h-5 rounded" %>
-          <%= link_to participant.name, summoners_path(participant.summoner.region, participant.summoner.name), class: "truncate" %>
+          <%= link_to participant.name, summoners_path(participant.summoner.region, participant.summoner.name), class: "truncate #{"font-bold" if participant == @participant}" %>
         </div>
       <% end %>
     </div>
