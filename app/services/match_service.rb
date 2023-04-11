@@ -24,6 +24,15 @@ class MatchService
     match_data = match_data["info"]
     patch = match_data["gameVersion"].split(".")
     patch = "#{patch[0]}.#{patch[1]}"
+    ended_by = if match_data["gameDuration"] < 300
+      :remake
+    elsif match_data["participants"].any? { |participant_data| participant_data["gameEndedInEarlySurrender"] }
+      :early_surrender
+    elsif match_data["participants"].any? { |participant_data| participant_data["gameEndedInSurrender"] }
+      :surrender
+    else
+      :full
+    end
     match = Match.create!(
       match_id: match_id,
       region: match_data["platformId"].downcase,
@@ -31,7 +40,8 @@ class MatchService
       duration: match_data["gameDuration"],
       game_version: patch,
       map: match_data["mapId"],
-      queue_type: match_data["queueId"]
+      queue_type: match_data["queueId"],
+      ended_by: ended_by
     )
 
     blue_team_data = match_data["teams"].find { |team_data| team_data["teamId"] == Team.sides[:blue] }

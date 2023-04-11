@@ -1,9 +1,9 @@
 <div class="max-h-32 p-2 md:p-4 rounded-lg flex items-center text-center gap-1 md:gap-4 <%= bg_class %> text-gray-700 shadow w-full md:max-w-3xl">
   <div class="flex flex-col items-center justify-evenly w-12 md:w-36 pr-1 md:pr-0">
-    <strong class="text-lg md:text-2xl <%= text_class %>"><%= @team.win ? "WIN" : "LOSS" %></strong>
+    <strong class="<%= result_text_class %> <%= text_class %>"><%= result_text %></strong>
     <strong class="text-sm"><%= @match.queue %></strong>
-    <p><%= @match.time %></p>
-    <small class="text-xs"><%= time_ago_in_words @match.finished_at %> ago</small>
+    <p class="text-xs md:text-base"><%= @match.time %></p>
+    <small class="text-xs hidden md:block"><%= time_ago_in_words @match.finished_at %> ago</small>
   </div>
   <div class="flex flex-col items-center gap-2 border-l pl-1 md:pl-4">
     <div class="relative">
@@ -14,7 +14,7 @@
     </div>
     <strong class="overflow-visible w-16"><%= @participant.champion.name %></strong>
   </div>
-  
+
   <div class="flex flex-col gap-1 md:gap-2 w-full items-center md:items-end">
     <div class="flex justify-between w-full">
       <div class="flex gap-1 w-20">

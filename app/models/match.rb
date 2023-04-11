@@ -25,6 +25,13 @@ class Match < ApplicationRecord
     )
   }
 
+  enum ended_by: {
+    remake: 0,
+    early_surrender: 1,
+    surrender: 2,
+    full: 3
+  }
+
   enum map: {
     summoners_rift: 11,
     howling_abyss: 12,

@@ -9,8 +9,28 @@ class Matches::CardComponent < ApplicationComponent
     @team = @participant.team
   end
 
+  def result_text
+    if @match.remake?
+      "REMAKE"
+    elsif @team.win
+      "WIN"
+    else
+      "LOSS"
+    end
+  end
+
+  def result_text_class
+    if @match.remake?
+      "text-sm md:text-base"
+    else
+      "text-lg md:text-2xl"
+    end
+  end
+
   def bg_class
-    if @team.win
+    if @match.remake?
+      "bg-neutral-400/80"
+    elsif @team.win
       "bg-blue-400/80"
     else
       "bg-red-400/80"
@@ -18,7 +38,9 @@ class Matches::CardComponent < ApplicationComponent
   end
 
   def dark_bg_class
-    if @team.win
+    if @match.remake?
+      "bg-neutral-700"
+    elsif @team.win
       "bg-blue-900"
     else
       "bg-red-900"
@@ -26,7 +48,9 @@ class Matches::CardComponent < ApplicationComponent
   end
 
   def border_class
-    if @team.win
+    if @match.remake?
+      "border-neutral-500"
+    elsif @team.win
       "border-blue-500"
     else
       "border-red-500"
@@ -34,7 +58,9 @@ class Matches::CardComponent < ApplicationComponent
   end
 
   def text_class
-    if @team.win
+    if @match.remake?
+      "text-neutral-700"
+    elsif @team.win
       "text-blue-900"
     else
       "text-red-900"

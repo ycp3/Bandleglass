@@ -1,14 +1,23 @@
-<div class="flex flex-col gap-2 w-full">
-  <div class="rounded bg-white shadow p-16 flex items-baseline">
-    <%= image_tag @summoner.image_path, class: "rounded-full w-32 h-32" %>
-    <div class="text-4xl font-bold">
-      <%= @summoner.name %>
+<div class="flex flex-col w-full gap-2 items-center">
+  <div class="rounded bg-white shadow p-16 flex justify-between w-full items-baseline">
+    <div class="flex items-center gap-5">
+      <%= image_tag @summoner.image_path, class: "rounded-full w-32 h-32" %>
+      <div class="text-4xl font-bold text-gray-700">
+        <%= @summoner.name %>
+      </div>
     </div>
 
-    <%= link_to "Update", summoner_update_matches_path(@summoner), data: { turbo_method: :put } %>
+    <%= link_to "Update", summoner_update_matches_path(@summoner), data: { turbo_method: :put, turbo_confirm: "Are you sure you want to update this summoner?" },
+      class: "p-2 px-3 rounded text-bold border border-2 border-blue-400 text-blue-400 hover:text-white hover:bg-blue-400" %>
   </div>
 
-  <div class="flex flex-col gap-2">
-    <%= render Matches::CardComponent.with_collection(@matches, summoner: @summoner) %>
+  <div class="flex gap-2 flex-col md:flex-row">
+    <div class="rounded flex flex-col bg-white shadow p-16">
+      <%= @summoner.rank %>
+      <%= @summoner.flex_rank %>
+    </div>
+    <div class="flex flex-col gap-2">
+      <%= render Matches::CardComponent.with_collection(@matches, summoner: @summoner) %>
+    </div>
   </div>
 </div>

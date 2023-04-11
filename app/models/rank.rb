@@ -31,7 +31,7 @@ class Rank < ApplicationRecord
     if master_tier?
       "#{tier.titleize} (#{lp}LP)"
     else
-      "#{tier.titleize} #{division} (#{lp}LP)"
+      "#{tier.titleize} #{division.upcase} (#{lp}LP)"
     end
   end
 
