@@ -70,7 +70,7 @@
         <% if participant_item.item_id.zero? %>
           <div class="w-7 h-7 md:w-8 md:h-8 rounded bg-neutral-500/50"></div>
         <% else %>
-          <%= image_tag participant_item.item.image_path, class: "w-7 h-7 md:w-8 md:h-8 #{participant_item.trinket? ? "rounded-full" : "rounded"} #{"outline outline-2 outline-yellow-400" unless participant_item.item.basic?}",
+          <%= image_tag participant_item.item.image_path, class: "w-7 h-7 md:w-8 md:h-8 #{participant_item.trinket? ? "rounded-full" : "rounded"} #{item_border_class(item: participant_item.item)}",
             data: { te_toggle: :popover, te_placement: :bottom, te_html: true, te_trigger: :hover, te_title: participant_item.item.name, te_content: participant_item.item.description } %>
         <% end %>
       <% end %>

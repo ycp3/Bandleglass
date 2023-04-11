@@ -66,4 +66,12 @@ class Matches::CardComponent < ApplicationComponent
       "text-red-900"
     end
   end
+
+  def item_border_class(item:)
+    if item.ornn_upgrade?
+      "outline outline-3 outline-orange-600"
+    elsif item.mythic?
+      "outline outline-3 outline-yellow-400"
+    end
+  end
 end
