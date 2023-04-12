@@ -14,7 +14,7 @@ class MatchService
       end
     end.each(&:join)
 
-    match_data.each { |data| create_match(region: summoner.region, match_data: data) }
+    match_data.map { |data| create_match(region: summoner.region, match_data: data) }
   end
 
   private
@@ -87,6 +87,8 @@ class MatchService
     )
 
     match_data["participants"].each do |participant_data|
+      next if participant_data["puuid"] == "BOT"
+
       summoner = Summoner.create_with(
         name: participant_data["summonerName"],
         region: match.region,
@@ -218,5 +220,7 @@ class MatchService
       deaths: blue_team.participants.sum(:deaths),
       assists: blue_team.participants.sum(:assists)
     )
+
+    match
   end
 end

@@ -69,4 +69,8 @@ class Match < ApplicationRecord
   def queue
     aram? ? "ARAM" : queue_type.titleize
   end
+
+  def bots?
+    intro_bots? || beginner_bots? || intermediate_bots?
+  end
 end

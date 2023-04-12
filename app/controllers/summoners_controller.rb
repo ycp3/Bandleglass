@@ -12,8 +12,8 @@ class SummonersController < ApplicationController
   def update_matches
     if SummonerService.update_summoner(summoner: @summoner)
       RankService.update_ranks_for_summoner(summoner: @summoner)
-      MatchService.update_matches_for_summoner(summoner: @summoner)
-      redirect_to summoners_path(@summoner.region, @summoner.name)
+      matches = MatchService.update_matches_for_summoner(summoner: @summoner)
+      Turbo::StreamsChannel.broadcast_update_later_to helpers.dom_id(@summoner, :matches), target: "matches", html: Matches::CardComponent.with_collection(@summoner.matches.order(started_at: :desc).limit(20), summoner: @summoner).render_in(view_context) unless matches.empty?
     else
       redirect_to summoners_path(@summoner.region, @summoner.name), alert: "Summoner not found, check region and search again from the main page!"
     end

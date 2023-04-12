@@ -86,11 +86,20 @@
       <% end %>
     </div>
     <div class="flex flex-col gap-1 w-24">
-      <% @match.red_team.participants.each do |participant| %>
-        <div class="flex gap-1 items-center">
-          <%= image_tag participant.champion.image_path, class: "w-5 h-5 rounded" %>
-          <%= link_to participant.name, summoners_path(participant.summoner.region, participant.summoner.name), class: "truncate #{"font-bold" if participant == @participant}" %>
-        </div>
+      <% if @match.bots? %>
+        <% 5.times do %>
+          <div class="flex gap-1 items-center">
+            <div class="w-5 h-5 rounded bg-neutral-500/50"></div>
+            <span class="text-neutral-500">BOT</span>
+          </div>
+        <% end %>
+      <% else %>
+        <% @match.red_team.participants.each do |participant| %>
+          <div class="flex gap-1 items-center">
+            <%= image_tag participant.champion.image_path, class: "w-5 h-5 rounded" %>
+            <%= link_to participant.name, summoners_path(participant.summoner.region, participant.summoner.name), class: "truncate #{"font-bold" if participant == @participant}" %>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </div>
