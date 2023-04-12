@@ -1,9 +1,19 @@
-<div class="rounded flex flex-col bg-white shadow p-16">
+<div class="rounded flex flex-col items-center py-3 bg-white shadow p-8 gap-1">
   <% if @rank.present? %>
-      <%= @rank %>
-      <%= @rank.winrate %>
-      <%= @rank.wins %> Wins
-      <%= @rank.losses %> Losses
+    <%= image_tag @rank.image_path, class: "w-32" %>
+    <%# image_tag "ranks/bronze.png", class: "w-32" %>
+    <strong class="<%= rank_text_class %>"><%= @rank %></strong>
+    <small>
+      <strong><%= @rank.winrate %></strong>% Winrate
+    </small>
+    <div class="flex justify-evenly w-full">
+      <small class="text-blue-400">
+        <strong><%= @rank.wins %> W</strong>
+      </small>
+      <small class="text-red-400">
+        <strong><%= @rank.losses %> L</strong>
+      </small>
+    </div>
   <% else %>
     <div class="text-center text-neutral-400 text-sm">
       No <%= rank_type %> rank to display

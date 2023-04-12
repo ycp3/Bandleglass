@@ -42,4 +42,8 @@ class Rank < ApplicationRecord
   def winrate
     (wins * 100 / (wins + losses).to_f).round(1)
   end
+
+  def image_path
+    "ranks/#{tier}.png"
+  end
 end
