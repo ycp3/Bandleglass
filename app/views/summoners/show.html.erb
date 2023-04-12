@@ -28,7 +28,13 @@
       <%= render Ranks::CardComponent.new(summoner: @summoner, flex_rank: true) %>
     </div>
     <div id="matches" class="flex flex-col gap-2">
-      <%= render Matches::CardComponent.with_collection(@matches, summoner: @summoner) %>
+      <% if @matches.any? %>
+        <%= render Matches::CardComponent.with_collection(@matches, summoner: @summoner) %>
+      <% else %>
+        <div class="rounded flex flex-col items-center py-3 bg-white shadow p-8 gap-1 md:min-w-[48rem] md:max-w-[48rem]">
+          <small class="text-neutral-400 text-sm">No matches to display</small>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

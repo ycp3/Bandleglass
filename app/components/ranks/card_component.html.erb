@@ -2,7 +2,7 @@
   <% if @rank.present? %>
     <strong><%= rank_type %></strong>
     <%= image_tag @rank.image_path, class: "w-32" %>
-    <strong class="<%= rank_text_class %>"><%= @rank %></strong>
+    <strong class="<%= rank_text_class %> text-center"><%= @rank %></strong>
     <small>
       <strong><%= @rank.winrate %></strong>% Winrate
     </small>
