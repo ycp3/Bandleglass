@@ -23,5 +23,5 @@ Rails.application.config.assets.paths << Rails.root.join("vendor", "assets", "im
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 
 Rails.application.config.after_initialize do
-  Riot::DDragonService.update! if Summoner.table_exists?
+  Riot::DDragonService.update!
 end
