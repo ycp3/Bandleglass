@@ -14,6 +14,14 @@ class Ranks::CardComponent < ApplicationComponent
     end
   end
 
+  def turbo_stream_target
+    if @flex_rank
+      dom_id(@summoner, :flex_rank)
+    else
+      dom_id(@summoner, :rank)
+    end
+  end
+
   def rank_text_class
     if @rank.iron?
       "text-stone-800"

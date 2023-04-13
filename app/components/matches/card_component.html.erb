@@ -3,7 +3,7 @@
     <strong class="<%= result_text_class %> <%= text_class %>"><%= result_text %></strong>
     <strong class="text-sm"><%= @match.queue %></strong>
     <p class="text-xs md:text-base"><%= @match.time %></p>
-    <small class="text-xs hidden md:block"><%= time_ago_in_words @match.finished_at %> ago</small>
+    <small class="text-[0.65rem] hidden md:block"><%= time_ago_in_words @match.finished_at %> ago</small>
   </div>
   <div class="flex flex-col items-center gap-2 border-l pl-1 md:pl-4">
     <div class="relative">
@@ -15,7 +15,7 @@
     <strong class="overflow-visible w-16"><%= @participant.champion.name %></strong>
   </div>
 
-  <div class="flex flex-col gap-1 md:gap-2 w-full items-center md:items-end">
+  <div class="flex flex-col gap-1 md:gap-2 w-full items-center md:items-start">
     <div class="flex justify-between w-full">
       <div class="flex gap-1 w-20">
         <div class="flex flex-col gap-1">
@@ -103,4 +103,5 @@
       <% end %>
     </div>
   </div>
+  <div class="border-l-2 <%= border_class %> h-full"></div>
 </div>

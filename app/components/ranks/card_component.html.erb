@@ -1,4 +1,4 @@
-<div class="rounded flex flex-col items-center py-3 bg-white shadow p-8 gap-1 md:min-w-[13rem] md:max-w-[13rem]">
+<div id="<%= turbo_stream_target %>" class="rounded flex flex-col items-center py-3 bg-white shadow p-8 gap-1 md:min-w-[13rem] md:max-w-[13rem]">
   <% if @rank.present? %>
     <strong><%= rank_type %></strong>
     <%= image_tag @rank.image_path, class: "w-32" %>
