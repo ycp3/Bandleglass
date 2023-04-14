@@ -22,6 +22,14 @@ class Summoner < ApplicationRecord
     ranks.find_by queue_type: :ranked_flex_sr
   end
 
+  def winrate
+    (teams.joins(:match).where.not(match: { ended_by: :remake }).where(win: true).count * 100 / teams.joins(:match).where.not(match: { ended_by: :remake }).count.to_f).round(1)
+  end
+
+  def most_played_champion
+    participants.group(:champion_id).select(:champion_id).order(Arel.sql("COUNT(*) DESC")).first.champion
+  end
+
   def image_path
     "profile_icons/#{profile_icon_id}.png"
   end

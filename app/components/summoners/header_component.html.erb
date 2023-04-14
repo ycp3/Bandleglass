@@ -1,4 +1,4 @@
-<div id="<%= dom_id(@summoner, :header) %>" class="rounded bg-white shadow p-5 md:p-16 flex justify-between w-full max-w-[61.5rem] items-baseline">
+<div id="<%= dom_id(@summoner, :header) %>" class="rounded bg-white shadow p-5 md:p-16 flex justify-between w-full max-w-[61.5rem] items-center">
   <div class="flex items-center gap-5">
     <div class="relative w-32">
       <%= image_tag @summoner.image_path, class: "rounded-full w-32 h-32 min-w-[8rem]" %>
@@ -15,6 +15,17 @@
           class: "p-2 px-3 rounded text-bold border border-2 border-blue-400 text-blue-400 hover:text-white hover:bg-blue-400" %>
         <small class="text-xs text-red-400"><%= @alert %></small>
       </div>
+    </div>
+  </div>
+  <div class="hidden md:flex gap-12 items-center">
+    <div class="flex flex-col items-center text-center">
+      <p>Winrate</p>
+      <strong class="text-2xl text-blue-500"><%= @summoner.winrate %>%</strong>
+    </div>
+    <div class="flex flex-col items-center text-center">
+      <p class="pb-2">Most Played</p>
+      <%= image_tag @summoner.most_played_champion.image_path, class: "rounded-full h-12 w-12" %>
+      <strong class="text-xl"><%= @summoner.most_played_champion.name %></strong>
     </div>
   </div>
 </div>
