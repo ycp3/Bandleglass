@@ -27,7 +27,7 @@ class Summoner < ApplicationRecord
   end
 
   def most_played_champion
-    participants.group(:champion_id).select(:champion_id).order(Arel.sql("COUNT(*) DESC")).first.champion
+    participants.group(:champion_id).select(:champion_id).order(Arel.sql("COUNT(*) DESC")).first&.champion
   end
 
   def image_path
