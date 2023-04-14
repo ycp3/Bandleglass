@@ -23,7 +23,8 @@ class Summoner < ApplicationRecord
   end
 
   def winrate
-    (teams.joins(:match).where.not(match: { ended_by: :remake }).where(win: true).count * 100 / teams.joins(:match).where.not(match: { ended_by: :remake }).count.to_f).round(1)
+    wr = (teams.joins(:match).where.not(match: { ended_by: :remake }).where(win: true).count * 100 / teams.joins(:match).where.not(match: { ended_by: :remake }).count.to_f).round(1)
+    wr.nan? ? 0.0 : wr
   end
 
   def most_played_champion
