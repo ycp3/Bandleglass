@@ -48,7 +48,7 @@ services:
       - redis:/data
   bandleglass_nginx:
     image: nginx:mainline
-    command: "nginx -g daemon off;"
+    command: "nginx -g \"daemon off;\""
     ports:
       - 80:80
     depends_on:
