@@ -2,6 +2,7 @@ volumes:
   postgres_data:
   bundle:
   rails_cache:
+  redis:
 
 services:
   bandleglass_app:
@@ -17,6 +18,7 @@ services:
     working_dir: /app
     depends_on:
       - bandleglass_db
+      - bandleglass_redis
     links:
       - bandleglass_db
     ports:
@@ -37,3 +39,10 @@ services:
     volumes:
       - postgres_data:/var/lib/bandleglass_postgresql/data
       - ../docker/db/bandleglass-role.sql:/docker-entrypoint-initdb.d/bandleglass-role.sql
+  bandleglass_redis:
+    image: redis:7
+    command: redis-server
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
