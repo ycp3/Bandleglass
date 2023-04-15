@@ -1,6 +1,6 @@
 <%= turbo_stream_from dom_id(@summoner) %>
 
-<div class="flex flex-col gap-2 items-center w-full">
+<div class="flex flex-col gap-2 items-center w-full md:pt-0 pt-1">
   <%= render Summoners::HeaderComponent.new(summoner: @summoner, alert: alert) %>
 
   <div class="flex gap-2 flex-col md:flex-row">
