@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Riot
-  class AssetsService
+  class AssetService
     def self.handle_entry(version:, entry:)
       return if entry.directory?
       if entry.full_name.start_with? "#{version}/img/champion/"
@@ -19,19 +19,19 @@ module Riot
 
     private
 
-    def img_spell(entry:)
+    def self.img_spell(entry:)
       write_to_file(destination: dir_images.join("spells", file_name(entry: entry)), entry: entry)
     end
 
-    def img_passive(entry:)
+    def self.img_passive(entry:)
       write_to_file(destination: dir_images.join("passives", file_name(entry: entry)), entry: entry)
     end
 
-    def img_profileicon(entry:)
+    def self.img_profileicon(entry:)
       write_to_file(destination: dir_images.join("profile_icons", file_name(entry: entry)), entry: entry)
     end
 
-    def img_item(entry:)
+    def self.img_item(entry:)
       write_to_file(destination: dir_images.join("items", file_name(entry: entry)), entry: entry)
     end
 
@@ -53,7 +53,7 @@ module Riot
       Rails.root.join("vendor", "assets", "images")
     end
 
-    def dir_data
+    def self.dir_data
       Rails.root.join("vendor", "assets", "data")
     end
   end
