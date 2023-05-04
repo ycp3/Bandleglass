@@ -2,6 +2,15 @@
 
 module Riot
   class AssetService
+    def self.update!
+      latest_version = Riot::DDragonService.latest_version
+      if outdated?(latest_version: latest_version)
+        download_raw(version: latest_version)
+        extract_data(version: latest_version)
+        update_assets!
+      end
+    end
+
     def self.handle_entry(version:, entry:)
       return if entry.directory?
       if entry.full_name.start_with? "#{version}/img/champion/"
@@ -205,6 +214,44 @@ module Riot
 
     def self.dir_data
       Rails.root.join("vendor", "assets", "data")
+    end
+
+    def self.dir_raw
+      Rails.root.join("vendor", "assets", "raw")
+    end
+
+    def self.extract_data(version:)
+      Gem::Package::TarReader.new(Zlib::GzipReader.open dir_raw.join(version)) do |tar|
+        tar.rewind
+        tar.each do |entry|
+          Riot::AssetService.handle_entry(version: version, entry: entry)
+        end
+      end
+    end
+
+    def self.download_raw(version:)
+      FileUtils.rm Dir.glob(dir_raw.join("*"))
+
+      uri = URI(base_url + "cdn/dragontail-#{version}.tgz")
+
+      Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+        File.open(dir_raw + version, "wb") do |file|
+          total_downloaded = 0
+          puts "Downloading: #{uri.to_s}"
+          print "Downloaded 0MB"
+          http.request_get(uri.path) do |response|
+            response.read_body do |chunk|
+              print "\rDownloaded #{((total_downloaded += chunk.length) / 1048576.0).round(2)}MB"
+              file.write chunk
+            end
+          end
+          puts "\nDownload complete!"
+        end
+      end
+    end
+
+    def self.outdated?(latest_version:)
+      Dir.children(dir_raw).empty? || Dir.children(dir_raw).first != latest_version
     end
   end
 end
