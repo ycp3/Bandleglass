@@ -27,7 +27,7 @@ Rails.application.config.after_initialize do
     if ActiveRecord::SchemaMigration.table_exists?
       version = Rails.root.join("db", "migrate").children.sort.last.to_s
       version = version.delete_prefix(Rails.root.join("db", "migrate").to_s).delete_prefix("/").first(14).to_i
-      Riot::DDragonService.update! if ActiveRecord::SchemaMigration.last.version == version
+      Riot::AssetService.update! if ActiveRecord::SchemaMigration.last.version == version
     end
   rescue ActiveRecord::NoDatabaseError
     nil
