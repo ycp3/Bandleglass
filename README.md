@@ -7,7 +7,9 @@ This app is designed for use with VSCode Dev Containers.
 
 First, create the env file at `/docker/.env`, and paste the following, making sure to provide a valid [Riot API Key](https://developer.riotgames.com/).
 ```
+POSTGRES_USERNAME=postgres
 POSTGRES_PASSWORD=password
+REDIS_URL=redis://bandleglass_redis:6379
 RIOT_API_KEY=YOUR_API_KEY_HERE
 ```
 
