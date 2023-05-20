@@ -14,7 +14,7 @@ class MatchService
       end
     end.each(&:join)
 
-    match_data.map { |data| create_match(region: summoner.region, match_data: data) }
+    match_data.map { |data| create_match(region: summoner.region, match_data: data) }.compact
   end
 
   private
@@ -33,6 +33,9 @@ class MatchService
     else
       :full
     end
+
+    return if match_data["gameDuration"].zero?
+    
     match = Match.create!(
       match_id: match_id,
       region: match_data["platformId"].downcase,
