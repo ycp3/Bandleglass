@@ -53,6 +53,7 @@ class Match < ApplicationRecord
     one_for_all: 1020,
     nexus_blitz: 1300,
     ultimate_spellbook: 1400,
+    arena: 1700,
     urf: 1900,
     tutorial_1: 2000,
     tutorial_2: 2010,
