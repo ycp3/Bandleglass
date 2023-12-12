@@ -35,7 +35,8 @@ class Match < ApplicationRecord
   enum map: {
     summoners_rift: 11,
     howling_abyss: 12,
-    nexus_blitz_map: 21
+    nexus_blitz_map: 21,
+    arena_map: 30
   }
 
   enum queue_type: {
