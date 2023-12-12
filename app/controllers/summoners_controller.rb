@@ -18,6 +18,8 @@ class SummonersController < ApplicationController
       Turbo::StreamsChannel.broadcast_replace_later_to dom_id(@summoner), target: dom_id(@summoner, :rank), html: Ranks::CardComponent.new(summoner: @summoner).render_in(view_context)
       Turbo::StreamsChannel.broadcast_replace_later_to dom_id(@summoner), target: dom_id(@summoner, :flex_rank), html: Ranks::CardComponent.new(summoner: @summoner, flex_rank: true).render_in(view_context)
       Turbo::StreamsChannel.broadcast_update_later_to dom_id(@summoner), target: dom_id(@summoner, :matches), html: Matches::CardComponent.with_collection(@summoner.matches.order(started_at: :desc).limit(20), summoner: @summoner).render_in(view_context) unless matches.empty?
+
+      redirect_to summoners_path(@summoner.region, @summoner.name), notice: "Summoner updated!"
     else
       redirect_to summoners_path(@summoner.region, @summoner.name), alert: "Summoner not found, check region and search again from the main page!"
     end
