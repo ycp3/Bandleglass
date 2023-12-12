@@ -34,7 +34,7 @@ class MatchService
       :full
     end
 
-    return if match_data["gameDuration"].zero?
+    return if match_data["gameDuration"].zero? || match_data["queueId"].to_i == Match.queue_types[:arena]
     
     match = Match.create!(
       match_id: match_id,
